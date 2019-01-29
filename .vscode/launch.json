@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - JumpstartApplication",
+            "request": "launch",
+            "mainClass": "com.alliance.jumpstart.JumpstartApplication",
+            "projectName": "jumpstart"
+        }
+    ]
+}
