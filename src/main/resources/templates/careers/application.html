@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Alliance Careers</title>
+    <title>Application Processing</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p>Rendering a Sample List of Careers</p>
-       <div th:each="career: ${careers}">
+    <p>Rendering Sample Career Data</p>
+       <div>
            <h2 th:text="${career.position}"></h2>
            <h3>Qualifications</h3>
            <ul>
@@ -14,7 +14,9 @@
                    <li th:text="${qualification.description}"></li>
                </th:block>
            </ul>
-           <a th:href="@{/careers/applyNow(id=${career.id})}" >Apply Now</a>
+       </div>
+       <div>
+           <p>Submit Resume</p>
        </div>
 </body>
 </html>

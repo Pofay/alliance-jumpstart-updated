@@ -43,4 +43,8 @@ public class Career {
     public String getPosition() {
         return this.position;
     }
+
+    public Long getId() {
+        return this.id;
+    }
 }
