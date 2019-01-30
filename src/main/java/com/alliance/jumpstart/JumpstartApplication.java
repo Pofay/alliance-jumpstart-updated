@@ -24,7 +24,6 @@ public class JumpstartApplication {
 			repository.save(new Customer("Kim", "Bauer"));
 			repository.save(new Customer("David", "Palmer"));
 			repository.save(new Customer("Michelle", "Dessler"));
-			
 		};
 	}
 
