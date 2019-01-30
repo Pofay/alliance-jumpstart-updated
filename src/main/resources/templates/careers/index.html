@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rendering a List of Customers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p>Rendering a Sample List of Careers</p>
+       <div th:each="career: ${careers}">
+           <h2 th:text="${career.position}"></h2>
+           <h3>Qualifications</h3>
+           <ul>
+               <th:block th:each="qualification: ${career.qualifications}">
+                   <li th:text="${qualification.description}"></li>
+               </th:block>
+           </ul>
+       </div>
+</body>
+</html>
