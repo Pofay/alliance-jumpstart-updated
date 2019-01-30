@@ -6,6 +6,7 @@ import com.alliance.jumpstart.repository.CareersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,9 +20,14 @@ public class CareersController {
     public CareersController(CareersRepository repository) {
         this.repository = repository;
     }
+    
+    @GetMapping(value="/")
+    public String index(Model model) {
+    	return "index";
+    }
 
     @RequestMapping(value = "/careers", method = RequestMethod.GET)
-    public String index(Model model) {
+    public String careers(Model model) {
         Iterable<Career> careers = repository.findAll();
         model.addAttribute("careers", careers);
         return "careers/index";
