@@ -21,6 +21,42 @@ public class CareersController {
         this.repository = repository;
     }
     
+    @GetMapping(value="/admindashboard")
+    public String adminDashboard(Model model) {
+    	return "dashboard/admindashboard";
+    }
+    
+    @GetMapping(value="/advertisement")
+    public String advertisement(Model model) {
+    	return "dashboard/advertisement";
+    }
+    
+    @GetMapping(value="/reportanalytics")
+    public String reportAnalytics(Model model) {
+    	return "dashboard/reportanalytics";
+    }
+    
+    @GetMapping(value="/resumebank")
+    public String resumeBank(Model model) {
+    	return "dashboard/resumebank";
+    }
+    
+    
+    @GetMapping(value="/login")
+    public String login(Model model) {
+    	return "dashboard/login";
+    }
+
+    @GetMapping(value="/register")
+    public String goToRegister(Model model) {
+    	return "dashboard/register";
+    }
+    
+    @GetMapping(value="/backtologin")
+    public String backToLogin(Model model) {
+    	return "dashboard/login";
+    }
+    
     @GetMapping(value="/")
     public String index(Model model) {
     	return "index";
