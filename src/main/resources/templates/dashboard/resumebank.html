@@ -12,63 +12,42 @@
     <title>SB Admin - Tables</title>
 
     <!-- Bootstrap core CSS-->
-    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
-    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-    <!-- Page le/vel plugin CSS-->
+    <!-- Page level plugin CSS-->
     <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin.css" rel="stylesheet">
+	<link href="/css/resume.css" rel="stylesheet">
 	
-	<style>
-	tr:nth-child(even) {
-  background-color: #f2f2f2
-}
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-tr:hover {
-          background-color: #ffff99;
-        }
-		
-	/* Full-width input fields */
-input[type=text], input[type=password], input[type=date] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-input[type=text]:focus, input[type=password]:focus , input[type=date]:focus{
-  background-color: #ddd;
-  outline: none;
-}	
-
-.btn .tooltiptext {
-  visibility: hidden;
-  width: 80px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  
-  
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top:100px;
-  left: 50%;
-  margin-left: 410px;
-}
-
-.btn:hover .tooltiptext {
-  visibility: visible;
-}
-</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+	// Animate select box length
+	var searchInput = $(".search-box input");
+	var inputGroup = $(".search-box .input-group");
+	var boxWidth = inputGroup.width();
+	searchInput.focus(function(){
+		inputGroup.animate({
+			width: "300"
+		});
+	}).blur(function(){
+		inputGroup.animate({
+			width: boxWidth
+		});
+	});
+});
+</script>
 
   </head>
 
@@ -142,10 +121,10 @@ input[type=text]:focus, input[type=password]:focus , input[type=date]:focus{
         <li class="nav-item ">
           <a class="nav-link" th:href="@{/admindashboard}">
             <i class="fas fa-fw fa-tachometer-alt" style="color:red;"></i>
-            <span>Application</span>
+            <span style="font-size:18px;">Application</span>
           </a>
         </li>
-         <li class="nav-item ">
+         <li class="nav-item active">
           <a class="nav-link" th:href="@{/advertisement}">
             <i class="fas fa-fw fa-table" style="color:blue;"></i>
             <span>Advertisement</span></a>
@@ -157,7 +136,7 @@ input[type=text]:focus, input[type=password]:focus , input[type=date]:focus{
             <span>Report Analytics</span></a>
         </li>
       
-		  <li class="nav-item active">
+		  <li class="nav-item">
           <a class="nav-link" th:href="@{/resumebank}">
             <i class="fas fa-address-card" style="color: #69f0ae;"></i>
             <span>Resume Bank</span></a>
@@ -198,52 +177,88 @@ input[type=text]:focus, input[type=password]:focus , input[type=date]:focus{
             <li class="breadcrumb-item">
               <a href="#">Dashboard</a>
             </li>
-            <li class="breadcrumb-item active">Resume Bank</li>
+            <li class="breadcrumb-item active">Advertisement</li>
           </ol>
 
           <!-- DataTables Example -->
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-table"></i>
-              Data Table Resume Bank </div>
-			  
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Resume</th>
-                      <th>Date</th>
-                      <th>Action</th>
-					  
-                    </tr>
-                  </thead>
-                  
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Micheal Learns</td>
-                      <td>micheal@gmail.com</td>
-                      <td>.docx</td>
-                      <td>2011/04/25</td>
-					  <td><button class="btn"><i class="fab fa-meetup" style="color:green;"><span class="tooltiptext">Moved</span></i></button></td>
+          
+			<div class="container">
+        <div class="table-wrapper">			
+            <div class="table-title">
+            	<div class="container" style="background-color:#eceff1; padding:20px;">
+              
+                <div class="row">
+                    <div class="col-sm-4">
+						<div class="show-entries">
+							<span>Show</span>
+							<select>
+								<option>5</option>
+								<option>10</option>
+								<option>15</option>
+								<option>20</option>
+							</select>
+							<span>entries</span>
+						</div>						
+					</div>
 					
-					   <td><button class="btn"><i class="fa fa-street-view" style="color:red;"><span class="tooltiptext">View</span></i></button></td>
-					 <td><button class="btn"><i class="fas fa-cloud-download-alt" style="color:blue;"><span class="tooltiptext">Download</span></i></button></td>
-					
-					  
-                    </tr>
-                   
-                  </tbody>
-                </table>
-              </div>
+					<div class="col-sm-4">
+						<h2 class="text-center">Resume <b>Details</b></h2>
+					</div>
+                    <div class="col-sm-4">
+                        <div class="search-box">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
+								<input type="text" class="form-control" placeholder="Search&hellip;">
+							</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
-
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                       <!-- <th>Name <i class="fa fa-sort"></i></th>-->
+					   <th>Name</th>
+                        <th>Email</th>
+                        <th>Resume </th>
+                        <th>Date</th>
+                        
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Thomas Hardy</td>
+                        <td>thomas@gmail.com</td>
+                        <td>resume.docx</td>
+                        <td>01/28/2019</td>
+                       
+                        <td>
+							<a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                            <a href="#" class="edit" title="Download" data-toggle="tooltip"><i class="material-icons">cloud_download</i></a>
+                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                           
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <ul class="pagination">
+                    <li class="page-item disabled"><a href="#">Previous</a></li>
+                    <li class="page-item  active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>    
          
 
         </div>
@@ -314,3 +329,36 @@ input[type=text]:focus, input[type=password]:focus , input[type=date]:focus{
 
 </html>
 
+<!-- Modal -->
+<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Job</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <label for="email"><b>Date Created</b></label>
+    <input type="date" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Job Position</b></label>
+    <input type="text" placeholder="Job Position" name="psw" required>
+
+    <label for="psw-repeat"><b>Qualification</b></label>
+    <input type="text" placeholder="Qualification" name="psw-repeat" required>
+	
+	<label for="psw-repeat"><b>Responsibilities</b></label>
+    <input type="text" placeholder="Responsibilities" name="psw-repeat" required>
+      </div>
+	  
+	  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

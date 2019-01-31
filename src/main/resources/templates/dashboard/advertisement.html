@@ -12,63 +12,84 @@
     <title>SB Admin - Tables</title>
 
     <!-- Bootstrap core CSS-->
-    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
-    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Page level plugin CSS-->
-    <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="css/sb-admin.css" rel="stylesheet">
+	 <link href="css/tableadvertisment.css" rel="stylesheet">
 	
-	<style>
-	tr:nth-child(even) {
-  background-color: #f2f2f2
-}
+	
+	
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-tr:hover {
-          background-color: #ffff99;
-        }
-		
-	/* Full-width input fields */
-input[type=text], input[type=password], input[type=date] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-input[type=text]:focus, input[type=password]:focus , input[type=date]:focus{
-  background-color: #ddd;
-  outline: none;
-}	
 
-.btn .tooltiptext {
-  visibility: hidden;
-  width: 80px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  
-  
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top:100px;
-  left: 50%;
-  margin-left: 410px;
-}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-.btn:hover .tooltiptext {
-  visibility: visible;
-}
-</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+	var actions = $("table td:last-child").html();
+	// Append table with add row form on add new button click
+    $(".add-new").click(function(){
+		$(this).attr("disabled", "disabled");
+		var index = $("table tbody tr:last-child").index();
+        var row = '<tr>' +
+            '<td><input type="text" class="form-control" name="id" id="name"></td>' +
+            '<td><input type="text" class="form-control" name="jobhiring" id="jobhiring"></td>' +
+            '<td><input type="text" class="form-control" name="qualification" id="qualification"></td>' +
+			'<td><input type="text" class="form-control" name="responsibilities" id="responsibiliteis"></td>' +
+			'<td><input type="date" class="form-control" name="datecreated" id="datecreated"></td>' +
+			'<td>' + actions + '</td>' +
+        '</tr>';
+    	$("table").append(row);		
+		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+	// Add row on add button click
+	$(document).on("click", ".add", function(){
+		var empty = false;
+		var input = $(this).parents("tr").find('input[type="text"]');
+        input.each(function(){
+			if(!$(this).val()){
+				$(this).addClass("error");
+				empty = true;
+			} else{
+                $(this).removeClass("error");
+            }
+		});
+		$(this).parents("tr").find(".error").first().focus();
+		if(!empty){
+			input.each(function(){
+				$(this).parent("td").html($(this).val());
+			});			
+			$(this).parents("tr").find(".add, .edit").toggle();
+			$(".add-new").removeAttr("disabled");
+		}		
+    });
+	// Edit row on edit button click
+	$(document).on("click", ".edit", function(){		
+        $(this).parents("tr").find("td:not(:last-child)").each(function(){
+			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+		});		
+		$(this).parents("tr").find(".add, .edit").toggle();
+		$(".add-new").attr("disabled", "disabled");
+    });
+	// Delete row on delete button click
+	$(document).on("click", ".delete", function(){
+        $(this).parents("tr").remove();
+		$(".add-new").removeAttr("disabled");
+    });
+});
+</script>
 
   </head>
 
@@ -142,7 +163,7 @@ input[type=text]:focus, input[type=password]:focus , input[type=date]:focus{
         <li class="nav-item ">
           <a class="nav-link" th:href="@{/admindashboard}">
             <i class="fas fa-fw fa-tachometer-alt" style="color:red;"></i>
-            <span>Application</span>
+            <span style="font-size:18px;">Application</span>
           </a>
         </li>
          <li class="nav-item active">
@@ -198,51 +219,52 @@ input[type=text]:focus, input[type=password]:focus , input[type=date]:focus{
             <li class="breadcrumb-item">
               <a href="#">Dashboard</a>
             </li>
-            <li class="breadcrumb-item active">Tables</li>
+            <li class="breadcrumb-item active">Advertisement</li>
           </ol>
 
           <!-- DataTables Example -->
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-table"></i>
-              Data Table Advertisement <button type="button" class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#basicExampleModal">Add Job</button></div>
-			  
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Job Hiring</th>
-                      <th>Qualification</th>
-                      <th>Responsibilities</th>
-                      <th>Date Created</th>
-                      <th>Action</th>
-					  
-                    </tr>
-                  </thead>
-                  
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>System Architect</td>
-                      <td>3 Years Experience</td>
-                      <td>Willing to finish the project</td>
-                      <td>2011/04/25</td>
-					  <td><button class="btn"><i class="fa fa-edit" style="color:green;"><span class="tooltiptext">Update</span></i></button></td>
-					
-					   <td><button class="btn"><i class="fa fa-trash" style="color:red;"><span class="tooltiptext">Delete</span></i></button></td>
-					
-					  
-                    </tr>
-                   
-                  </tbody>
-                </table>
-              </div>
+          
+<div class="container">
+        <div class="table-wrapper" >
+            <div class="table-title" >
+				<div class="container" style="background-color:#eceff1; padding:20px;">
+                <div class="row">
+                    <div class="col-sm-8" ><h2>Advertisement <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                    </div>
+                </div>
+				</div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
-
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+					 <th>ID</th>
+                        <th>Job Hiring</th>
+                        <th>Qaulification</th>
+                        <th>Responsibilities</th>
+						<th>Date Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+					<td>1</td>
+                        <td>Web Developer</td>
+                        <td>ok</td>
+						<td>ok</td>
+                        <td>01/28/2019</td>
+                        <td>
+							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                       
+                </tbody>
+            </table>
+        </div>
+    </div>     
          
 
         </div>
