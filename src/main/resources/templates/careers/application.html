@@ -29,18 +29,20 @@
 				
                 <div class="card-body">
 				<h3 style="text-align:center; color:blue;" th:text="${career.position}"> </h3>
-                    <form method="POST">
+                    <form method="POST" 
+                    enctype="multipart/form-data"
+                    th:action="@{/careers/applyNow(id=${career.id})}" th:object="${applicantDetails}">
                         <div class="form-row">
                             <div class="name">Full name</div>
                             <div class="value">
-                                <input class="input--style-6" type="text" name="full_name">
+                                <input class="input--style-6" type="text" th:field="*{fullName}">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="name">Email address</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <input class="input--style-6" type="email" name="email" placeholder="example@email.com">
+                                    <input class="input--style-6" type="email" placeholder="example@email.com" th:field="*{email}">
                                 </div>
                             </div>
                         </div>
@@ -48,7 +50,7 @@
                             <div class="name">Message</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <textarea class="textarea--style-6" name="message" placeholder="Message sent to the employer"></textarea>
+                                    <textarea class="textarea--style-6" name="message" placeholder="Message sent to the employer" th:field="*{message}"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -63,11 +65,11 @@
                                 <div class="label--desc">Upload your CV/Resume or any other relevant file. Max file size 50 MB</div>
                             </div>
                         </div>
-                    </form>
                 </div>
                 <div class="card-footer"  style="padding-top:10px;">
                     <button class="btn btn--radius-2 btn--blue-2" type="submit" style="float:right;">Send Application</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>

@@ -23,6 +23,8 @@ public class Career {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CareerQualification> qualifications;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Applicant> applicants;
 
     protected Career() {
     }
@@ -38,6 +40,14 @@ public class Career {
 
     public void addQualification(String description) {
         qualifications.add(new CareerQualification(description));
+    }
+
+    public void addApplicant(Applicant a) {
+        applicants.add(a);
+    }
+
+    public List<Applicant> getApplicants() {
+        return this.applicants;
     }
 
     public String getPosition() {
