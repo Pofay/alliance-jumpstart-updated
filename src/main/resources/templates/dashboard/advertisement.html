@@ -159,11 +159,11 @@ $(document).ready(function(){
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="sidebar navbar-nav" style="background: url(img/bg2.jpg);  background-size: cover;">
+      <ul class="sidebar navbar-nav" style="background: url(img/bg3.jpg);  background-size: cover;">
         <li class="nav-item ">
           <a class="nav-link" th:href="@{/admindashboard}">
             <i class="fas fa-fw fa-tachometer-alt" style="color:red;"></i>
-            <span style="font-size:18px;">Application</span>
+            <span>Application</span>
           </a>
         </li>
          <li class="nav-item active">
@@ -303,7 +303,7 @@ $(document).ready(function(){
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" th:href="@{/login}">Logout</a>
           </div>
         </div>
       </div>
