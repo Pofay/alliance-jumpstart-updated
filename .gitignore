@@ -33,3 +33,7 @@
 
 # Conflicting properties
 application.properties
+
+#upload-dir
+/upload-dir
+/upload-dir/*

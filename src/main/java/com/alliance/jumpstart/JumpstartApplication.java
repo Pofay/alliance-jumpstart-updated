@@ -2,6 +2,7 @@ package com.alliance.jumpstart;
 
 import com.alliance.jumpstart.entities.Career;
 import com.alliance.jumpstart.repository.CareersRepository;
+import com.alliance.jumpstart.services.StorageService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,8 +17,11 @@ public class JumpstartApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(CareersRepository repository) {
+	public CommandLineRunner demo(CareersRepository repository, StorageService service) {
+
 		return (args) -> {
+			service.deleteAll();
+
 			// save a couple of customers
 			/*
 			 * repository.save(new Customer("Jack", "Bauer")); repository.save(new
@@ -36,6 +40,7 @@ public class JumpstartApplication {
 
 			repository.save(c1);
 			repository.save(c2);
+			service.init();
 		};
 	}
 
