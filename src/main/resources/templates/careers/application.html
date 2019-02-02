@@ -10,6 +10,10 @@
 <meta name="author" content="Colorlib">
 <meta name="keywords" content="Colorlib Templates">
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 <!-- Title Page-->
 <title>Apply for job by Alliance</title>
 
@@ -37,8 +41,17 @@
 					
 					<!-- <h3 style="text-align: center; color: blue;"
 						th:text="${career.position}"></h3>-->
+						
+				<div class="col-md-10 col-md-offset-1">
+            		<div class="alert alert-success alert-dismissible fade in text-center" role="alert" th:if="${message}">
+                	<strong><span th:text="${message}"/></strong>
+            		</div>
+        		</div>
+					
 					<form method="POST" enctype="multipart/form-data"
 						id="fileUploadForm" action="/">
+
+		
 
 						<div class="form-row">
 							<div class="name">Full name</div>
@@ -83,13 +96,7 @@
 								style="float: right;">Send Application</button>
 						</div>
 					</form>
-					<div th:if="${message}">
-					<strong style="text-align:center;"><span th:text="${message}"/></strong>
-					<hr>
-				</div>
-				<ul th:each="filename: ${files}">
-					<li><span th:text="${filename}"/></li>
-				</ul>
+					
 				</div>
 
 			</div>
