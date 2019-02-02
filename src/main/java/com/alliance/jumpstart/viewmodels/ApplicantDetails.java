@@ -5,6 +5,7 @@ public class ApplicantDetails {
     private String message;
     private String fullName;
     private String email;
+    private String resumeFile;
 
     public String getFullName() {
         return this.fullName;
@@ -28,6 +29,14 @@ public class ApplicantDetails {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public void setResumeFile(String resumeFile) {
+        this.resumeFile = resumeFile;
+    }
+
+    public String getResumeFile() {
+        return this.resumeFile;
     }
 
 }

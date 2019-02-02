@@ -45,4 +45,8 @@ public class Applicant {
     public String getMessage() {
         return this.message;
     }
+    
+    public Long getId() {
+        return this.id;
+    }
 }
