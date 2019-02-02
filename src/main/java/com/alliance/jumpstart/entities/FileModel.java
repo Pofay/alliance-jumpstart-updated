@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import com.alliance.jumpstart.audit.DateAudit;
  
 @Entity
-@Table(name="file_model")
+@Table(name="applicant_resume")
 public class FileModel  extends DateAudit {
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +23,9 @@ public class FileModel  extends DateAudit {
 	 
 	 @Column(name = "email")
 		private String email;
+	 
+	 @Column(name = "position")
+		private String position;
 	 
 	 @Column(name = "message")
 		private String message;
@@ -39,9 +42,10 @@ public class FileModel  extends DateAudit {
 	
 	public FileModel(){}
 	
-	public FileModel(String applicantName,String email,String message,String name, String mimetype, byte[] pic){
+	public FileModel(String applicantName,String email,String position,String message,String name, String mimetype, byte[] pic){
 		this.applicantName = applicantName;
 		this.email = email;
+		this.position = position;
 		this.message = message;
 		this.name = name;
 		this.mimetype = mimetype;
@@ -62,6 +66,14 @@ public class FileModel  extends DateAudit {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getPosition() {
+		return this.position;
+	}
+	
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 	public String getMessage() {

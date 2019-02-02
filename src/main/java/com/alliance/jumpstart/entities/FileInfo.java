@@ -3,13 +3,15 @@ package com.alliance.jumpstart.entities;
 public class FileInfo {
 	private String applicantName;
 	private String email;
+	private String position;
 	private String message;
 	private String filename;
 	private String url;
 	
-	public FileInfo(String applicantName,String email,String message,String filename, String url) {
+	public FileInfo(String applicantName,String email,String position,String message,String filename, String url) {
 		this.applicantName = applicantName;
 		this.email = email;
+		this.position = position;
 		this.message = message;
 		this.filename = filename;
 		this.url = url;
@@ -30,6 +32,14 @@ public class FileInfo {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getPosition() {
+		return this.position;
+	}
+	
+	public void setPositionl(String position) {
+		this.position = position;
 	}
 
 	public String getMessage() {

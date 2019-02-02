@@ -40,11 +40,12 @@ public class DownloadFileController {
 					
 					String applicantname = fileModel.getApplicantName();
 					String email = fileModel.getEmail();
+					String position = fileModel.getPosition();
 					String message = fileModel.getMessage();
 					String filename = fileModel.getName();
 					String url = MvcUriComponentsBuilder.fromMethodName(DownloadFileController.class,
 	                        "downloadFile", fileModel.getName().toString()).build().toString();
-					return new FileInfo(applicantname,email,message,filename, url); 
+					return new FileInfo(applicantname,email,position,message,filename, url); 
 				} 
 			)
 			.collect(Collectors.toList());

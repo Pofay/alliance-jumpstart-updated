@@ -1,9 +1,13 @@
 package com.alliance.jumpstart.controllers;
 
+
 import com.alliance.jumpstart.entities.Career;
 import com.alliance.jumpstart.entities.FileInfo;
 import com.alliance.jumpstart.repository.CareersRepository;
 import com.alliance.jumpstart.service.CareerService;
+
+
+
 import com.alliance.jumpstart.entities.FileModel;
 import com.alliance.jumpstart.repository.FileRepository;
 
@@ -11,12 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -35,10 +39,11 @@ public class CareersController {
     @Autowired
     private CareerService careerService;
     
+    
     @Autowired
 	FileRepository fileRepository;
-	
     
+   
     public CareersController(CareersRepository repository) {
         this.repository = repository;
     }
@@ -82,11 +87,12 @@ public class CareersController {
 					
 					String applicantname = fileModel.getApplicantName();
 					String email = fileModel.getEmail();
+					String position = fileModel.getPosition();
 					String message = fileModel.getMessage();
 					String filename = fileModel.getName();
 					String url = MvcUriComponentsBuilder.fromMethodName(DownloadFileController.class,
 	                        "downloadFile", fileModel.getName().toString()).build().toString();
-					return new FileInfo(applicantname,email,message,filename, url); 
+					return new FileInfo(applicantname,email,position,message,filename, url); 
 				} 
 			)
 			.collect(Collectors.toList());
@@ -124,7 +130,7 @@ public class CareersController {
     }
 
     @RequestMapping(value ="/careers/applyNow", method = RequestMethod.GET)
-    public String applyNow(@RequestParam(value="id") long id, Model model) {
+    public String applyNow(@RequestParam(value="id", required=false) Long id, Model model) {
         Career c= repository.findById(Long.valueOf(id))
         .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
             
@@ -139,15 +145,20 @@ public class CareersController {
     return "result";
     }*/
     
-    @PostMapping("/")
-    //@RequestMapping(value ="/careers/upload", method = RequestMethod.POST)
-    public String uploadMultipartFile(@RequestParam("name")String name, @RequestParam("email")String email,
+    //@PostMapping("/apply")
+    @RequestMapping(value ="/apply", method = RequestMethod.POST)
+    public String uploadMultipartFile(@RequestParam("position")String position ,@RequestParam("name")String name, @RequestParam("email")String email,
     		@RequestParam("message")String message, @RequestParam("files") MultipartFile[] files, Model model) {
     	List<String> fileNames = new ArrayList<String>();
-    
+    	
+    	 Career c= repository.findByPosition(String.valueOf(position));
+    		            
+    		        model.addAttribute("career", c);
     	
 		try {
 			List<FileModel> storedFile = new ArrayList<FileModel>();
+			
+			
 			
 			for(MultipartFile file: files) {
 				FileModel fileModel = fileRepository.findByName(file.getOriginalFilename());
@@ -157,7 +168,7 @@ public class CareersController {
 					fileModel.setPic(file.getBytes());
 					fileModel.setApplicantName(file.toString());
 				}else {
-					fileModel = new FileModel(name,email,message,file.getOriginalFilename(), file.getContentType(), file.getBytes());
+					fileModel = new FileModel(name,email,position,message,file.getOriginalFilename(), file.getContentType(), file.getBytes());
 				}
 				
 				fileNames.add(file.getOriginalFilename());				
@@ -177,6 +188,7 @@ public class CareersController {
          return "careers/application";
     }
     
-    
+   
+
 
 }
