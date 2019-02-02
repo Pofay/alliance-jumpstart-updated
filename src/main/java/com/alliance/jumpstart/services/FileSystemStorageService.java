@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.vavr.control.Try;
+import io.vavr.control.Validation;
 
 @Service
 public class FileSystemStorageService implements StorageService {
@@ -26,18 +28,32 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public Try store(MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+    public Try<String> store(MultipartFile file, LocalDateTime timestamp) {
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        return Validation.combine(isNotEmpty(file, fileName), verifyAsDocOrPdf(fileName), isNotRelative(fileName))
+                .ap((f, extension, filePath) -> new StoragePayload(f, extension, timestamp.toString())).toTry()
+                .flatMap((payload) -> Try
+                        .withResources(() -> payload.file.getInputStream()).of((stream) -> Files.copy(stream,
+                                this.rootLocation.resolve(payload.newFileName), StandardCopyOption.REPLACE_EXISTING))
+                        .map(o -> payload.newFileName));
+    }
 
-        if (file.isEmpty()) {
-            throw new RuntimeException("Failed to store empty file " + filename);
-        }
-        if (filename.contains("..")) {
-            // This is a security check
-            throw new RuntimeException("Cannot store file with relative path outside current directory " + filename);
-        }
-        return Try.withResources(() -> file.getInputStream()).of((stream) -> Files.copy(stream,
-                this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING));
+    private Validation<String, MultipartFile> isNotEmpty(MultipartFile f, String cleanFileName) {
+        return f.isEmpty() ? Validation.invalid("Failed to store empty file: " + cleanFileName) : Validation.valid(f);
+    }
+
+    private Validation<String, String> verifyAsDocOrPdf(String fileName) {
+        return StringUtils.getFilenameExtension(fileName).equals("doc")
+                || StringUtils.getFilenameExtension(fileName).equals("pdf")
+                        ? Validation.valid(StringUtils.getFilenameExtension(fileName))
+                        : Validation.invalid(fileName + " is not a .doc or .pdf");
+
+    }
+
+    private Validation<String, String> isNotRelative(String fileName) {
+        return fileName.contains("..")
+                ? Validation.invalid("File cannot be stored since it has directory directives: " + fileName)
+                : Validation.valid(fileName);
     }
 
     private Path load(String filename) {

@@ -2,14 +2,13 @@ package com.alliance.jumpstart.controllers;
 
 import com.alliance.jumpstart.entities.Career;
 
-import java.io.File;
+import java.time.LocalDateTime;
 
 import com.alliance.jumpstart.entities.Applicant;
 
 import com.alliance.jumpstart.repository.CareersRepository;
 import com.alliance.jumpstart.services.StorageService;
 import com.alliance.jumpstart.viewmodels.ApplicantDetails;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -97,13 +96,12 @@ public class CareersController {
 
         Career c = repository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
-        
-        service.store(cv).onSuccess((o) -> {
-            Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(),
-                    cv.getOriginalFilename());
+
+        service.store(cv, LocalDateTime.now()).onSuccess((fileName) -> {
+            Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName);
             c.addApplicant(a);
             repository.save(c);
-        });
+        }).onFailure((o) -> System.out.println(o));
 
         return "redirect:/";
     }

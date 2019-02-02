@@ -1,5 +1,7 @@
 package com.alliance.jumpstart.services;
 
+import java.time.LocalDateTime;
+
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +11,7 @@ public interface StorageService {
 
     Try init();
 
-    Try store(MultipartFile file);
+    Try<String> store(MultipartFile file, LocalDateTime timeStamp);
 
     Try<Resource> loadAsResource(String filename);
 
