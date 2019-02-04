@@ -1,41 +1,58 @@
 # Alliance Jumpstart Program
 
-## Prerequisites
+## System Requirements
 
-The System must have the following installed:
+Your System should have the following installed:
 
-* MySQL 5 -> MariaDB 10+
-* JRE and JDK 8+
+* [Docker CE][docker]: refer for [Linux][linux] and [Windows][windows] installation
+* [JDK 8][jdk8] 
 
-Before running review the `application.properties`:
+*Additional Note: Contributors should create a Docker account especially Windows Users so that you can use Docker*
 
-    spring.jpa.hibernate.ddl-auto=create-drop
-    spring.datasource.url=jdbc:mysql://localhost:3306/db_example
-    spring.datasource.username=root
-    spring.datasource.password=
+## Starting The Application
 
-`spring.datasource.url` needs to point to an existing database by replacing /db_example with your existing database's name.
+Once done cloning get inside the directory:
 
-An example with a Database with name of `jumpstart`:
+    git clone https://github.com/Pofay/alliance-jumpstart-updated.git
+    cd alliance-jumpstart-updated 
 
-    spring.datasource.url=jdbc:mysql://localhost:3306/jumpstart
+Run the Following Commands in your Terminal/Command Line as per your O.S:
 
-For `username` and `password` set it to your machine's credentials.
+For Linux & Mac
 
-### Caveats
+    ./mvnw install dockerfile:build
 
-For those using MariaDB these properties will work:
+For Windows
 
-    spring.jpa.hibernate.ddl-auto=create-drop
-    spring.datasource.url=jdbc:mysql://localhost:3306/<DBNAME>
-    spring.datasource.username=root
-    spring.datasource.password=
-    server.port=8010
-    spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
-    spring.jpa.show-sql=false
+    mvnw.cmd install dockerfile:build
 
-For those using older MySQL 5 versions:
+**This will build the appropriate Docker Image for the Application.**
 
-    spring.datasoure.url=jdbc:mysql://localhost:3306/<DBNAME>?useLegacyDatetimeCode=false&serverTimezone=UTC
+To Run the image:
+
+    docker-compose up
+
+*Note: Incase you get errors the first time running docker-compose don't panic, run it again and it'll probably work*
 
 
+## For Rebuilds and Restarts
+
+**To allow code changes to take effect you need to rebuild and restart the docker image.**
+
+The commands for rebuilding and restarting are as follows:
+
+For Linux & Mac:
+
+    ./mvnw clean package dockerfile:build
+    docker-compose up
+
+For Windows:
+
+    mvnw.cmd clean package dockerfile:build
+    docker-compose up
+
+
+[linux]: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+[windows]: https://hub.docker.com/editions/community/docker-ce-desktop-windows
+[jdk8]: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[docker]: https://www.docker.com/

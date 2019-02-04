@@ -5,8 +5,8 @@ services:
   alliance-db-server:
     image: alliance-jumpstart/db:latest
     build:
-      context: .
-      dockerfile: ./db_init/Dockerfile
+      context: ./db_init
+      dockerfile: Dockerfile
 
     environment:
       MYSQL_ROOT_USER: root
@@ -14,7 +14,7 @@ services:
       MYSQL_DATABASE: jumpstart_db
   
   alliance-app:
-    image: alliance-jumpstart/program
+    image: alliance-jumpstart/jumpstart
     build:
       context: .
       dockerfile: Dockerfile
