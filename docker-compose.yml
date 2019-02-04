@@ -4,6 +4,10 @@ services:
 
   alliance-db-server:
     image: alliance-jumpstart/db:latest
+    build:
+      context: .
+      dockerfile: ./db_init/Dockerfile
+
     environment:
       MYSQL_ROOT_USER: root
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
