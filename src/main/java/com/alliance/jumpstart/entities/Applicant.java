@@ -1,9 +1,14 @@
 package com.alliance.jumpstart.entities;
 
+import java.util.Optional;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Customer
@@ -19,15 +24,17 @@ public class Applicant {
     private String resumeFile;
     private String fullName;
     private String email;
+    private String appliedPosition;
 
     protected Applicant() {
     }
 
-    public Applicant(String fullName, String email, String message, String resumeFile) {
+    public Applicant(String fullName, String email, String message, String resumeFile, String position) {
         this.resumeFile = resumeFile;
         this.fullName = fullName;
         this.email = email;
         this.message = message;
+        this.appliedPosition = position;
     }
 
     public String getResumeFile() {
@@ -45,8 +52,13 @@ public class Applicant {
     public String getMessage() {
         return this.message;
     }
-    
+
     public Long getId() {
         return this.id;
     }
+
+    public String getAppliedPosition(){
+        return this.appliedPosition;
+    }
+    
 }

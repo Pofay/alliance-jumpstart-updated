@@ -299,15 +299,17 @@
                     <!-- <th>Name <i class="fa fa-sort"></i></th>-->
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Resume</th>
+                    <th>Applied Position</th>
 
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr th:each="applicant: ${applicants}">
+                    <td th:text="${applicant.id}"></td>
                     <td th:text="${applicant.fullName}"></td>
                     <td th:text="${applicant.email}"></td>
+                    <td th:text="${applicant.appliedPosition}"></td>
 
                     <td>
                       <a
@@ -318,7 +320,7 @@
                         ><i class="material-icons">&#xE417;</i></a
                       >
                       <a
-                        th:href="${applicant.resumeFile}"
+                        th:href="${applicant.resumeDownloadPath}"
                         class="edit"
                         title="Download"
                         data-toggle="tooltip"

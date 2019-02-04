@@ -12,6 +12,7 @@ import com.alliance.jumpstart.repository.ApplicantsRepository;
 import com.alliance.jumpstart.repository.CareersRepository;
 import com.alliance.jumpstart.services.StorageService;
 import com.alliance.jumpstart.viewmodels.ApplicantDetails;
+import com.alliance.jumpstart.viewmodels.ApplicantFormDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,6 +57,7 @@ public class CareersController {
 
     @GetMapping(value = "/resumebank")
     public String resumeBank(Model model) {
+
         List<ApplicantDetails> applicants = StreamSupport.stream(applicantRepo.findAll().spliterator(), false)
                 .map(a -> {
                     ApplicantDetails d = new ApplicantDetails();
@@ -63,10 +65,13 @@ public class CareersController {
                     String resumePath = ServletUriComponentsBuilder.fromCurrentContextPath().path("/resumes/")
                             .path(a.getResumeFile()).toUriString();
 
+                    System.out.println(a.getAppliedPosition());
+
+                    d.setId(a.getId());
+                    d.setAppliedPosition(a.getAppliedPosition());
                     d.setEmail(a.getEmail());
                     d.setFullName(a.getFullName());
-                    d.setResumeFile(resumePath);
-                    d.setMessage(a.getMessage());
+                    d.setResumeDownloadPath(resumePath);
                     return d;
                 }).collect(Collectors.toList());
 
@@ -107,19 +112,20 @@ public class CareersController {
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
 
         model.addAttribute("career", c);
-        model.addAttribute("applicantDetails", new ApplicantDetails());
+        model.addAttribute("formDetails", new ApplicantFormDetails());
         return "careers/application";
     }
 
     @PostMapping(value = "/careers/applyNow")
     public String createApplicant(@RequestParam(value = "id") long id,
-            @RequestParam(value = "file_cv") MultipartFile cv, @ModelAttribute ApplicantDetails details) {
+            @RequestParam(value = "file_cv") MultipartFile cv, @ModelAttribute ApplicantFormDetails details) {
 
         Career c = repository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
 
         service.store(cv, LocalDateTime.now()).onSuccess((fileName) -> {
-            Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName);
+            Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName,
+                    c.getPosition());
             c.addApplicant(a);
             repository.save(c);
         }).onFailure((o) -> System.out.println(o));

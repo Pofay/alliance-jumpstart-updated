@@ -31,7 +31,7 @@
 				<h3 style="text-align:center; color:blue;" th:text="${career.position}"> </h3>
                     <form method="POST" 
                     enctype="multipart/form-data"
-                    th:action="@{/careers/applyNow(id=${career.id})}" th:object="${applicantDetails}">
+                    th:action="@{/careers/applyNow(id=${career.id})}" th:object="${formDetails}">
                         <div class="form-row">
                             <div class="name">Full name</div>
                             <div class="value">

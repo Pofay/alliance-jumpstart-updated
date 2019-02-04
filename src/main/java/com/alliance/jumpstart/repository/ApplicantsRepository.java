@@ -9,5 +9,4 @@ import org.springframework.data.repository.CrudRepository;
  * CareersRepository
  */
 public interface ApplicantsRepository extends CrudRepository<Applicant, Long> {
-    Career findAppliedCareer(Applicant a);
 }

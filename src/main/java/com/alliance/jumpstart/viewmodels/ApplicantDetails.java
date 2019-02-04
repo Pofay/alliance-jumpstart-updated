@@ -30,7 +30,7 @@ public class ApplicantDetails {
      * @return the resumeDownloadPath
      */
     public String getResumeDownloadPath() {
-        return resumeDownloadPath;
+        return this.resumeDownloadPath;
     }
 
     /**
@@ -44,7 +44,7 @@ public class ApplicantDetails {
      * @return the appliedPosition
      */
     public String getAppliedPosition() {
-        return appliedPosition;
+        return this.appliedPosition;
     }
 
     /**
