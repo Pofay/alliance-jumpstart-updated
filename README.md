@@ -23,9 +23,13 @@ For Linux & Mac
 
     ./mvnw install dockerfile:build
 
-For Windows
+For Windows (Standard cmd)
 
     mvnw.cmd install dockerfile:build
+
+For Windows (Powershell > PS)
+
+    .\mvnw.cmd install dockerfile:build
 
 **This will build the appropriate Docker Image for the Application.**
 
@@ -48,10 +52,16 @@ For Linux & Mac:
     ./mvnw clean package dockerfile:build
     docker-compose up
 
-For Windows:
+For Windows (Standard cmd):
 
     mvnw.cmd clean package dockerfile:build
     docker-compose up
+
+For Windows (Powershell > PS)
+ 
+    .\mvnw.cmd clean package dockerfile:build
+    docker-compose up
+   
 
 ## Common Errors and Fixes
 
@@ -60,7 +70,7 @@ For Windows:
 Run the following Commands:
 
     docker stop $(docker ps -a -q)
-    # Windows: restart-service *docker* or through the GUI in settings
+    # Windows (Powershell): restart-service *docker* or through the GUI in settings
     # Linux: sudo systemctl restart docker
 
 ### (For Windows Users) Not Enough memory to start Docker
