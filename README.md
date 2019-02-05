@@ -1,5 +1,6 @@
 # Alliance Jumpstart Program
 
+
 ## System Requirements
 
 Your System should have the following installed:
@@ -41,6 +42,7 @@ To Run the image:
 
 The commands for rebuilding and restarting are as follows:
 
+
 For Linux & Mac:
 
     ./mvnw clean package dockerfile:build
@@ -51,6 +53,19 @@ For Windows:
     mvnw.cmd clean package dockerfile:build
     docker-compose up
 
+## Common Errors and Fixes
+
+1. for alliance-app  Cannot start service alliance-app: driver failed programming external connectivity on endpoint alliance-jumpstart-updated_alliance-app_1: Error starting userland proxy: mkdir /port/tcp:0.0.0.0:8010:tcp:172.18.0.3:8080
+
+Run the following Commands:
+
+    docker stop $(docker ps -a -q)
+    # Windows restart-service *docker* or through the GUI in settings
+    # sudo systemctl restart docker
+
+2. (For Windows Users) Not Enough memory to start Docker
+
+*Play around with the [settings](https://docs.docker.com/docker-for-windows/#advanced). Turn the Memory from 2048 -> 1280 -> 1024*
 
 [linux]: https://docs.docker.com/install/linux/docker-ce/ubuntu/
 [windows]: https://hub.docker.com/editions/community/docker-ce-desktop-windows
