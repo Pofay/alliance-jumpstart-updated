@@ -55,7 +55,7 @@ For Windows:
 
 ## Common Errors and Fixes
 
-1. for alliance-app  Cannot start service alliance-app: driver failed programming external connectivity on endpoint alliance-jumpstart-updated_alliance-app_1: Error starting userland proxy: mkdir /port/tcp:0.0.0.0:8010:tcp:172.18.0.3:8080
+### Error For alliance-app: Cannot start service alliance-app: driver failed programming external connectivity on endpoint alliance-jumpstart-updated_alliance-app_1: Error starting userland proxy: mkdir /port/tcp:0.0.0.0:8010:tcp:172.18.0.3:8080
 
 Run the following Commands:
 
@@ -63,7 +63,7 @@ Run the following Commands:
     # Windows restart-service *docker* or through the GUI in settings
     # sudo systemctl restart docker
 
-2. (For Windows Users) Not Enough memory to start Docker
+### (For Windows Users) Not Enough memory to start Docker
 
 *Play around with the [settings](https://docs.docker.com/docker-for-windows/#advanced). Turn the Memory from 2048 -> 1280 -> 1024*
 
