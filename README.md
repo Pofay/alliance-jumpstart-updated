@@ -60,8 +60,8 @@ For Windows:
 Run the following Commands:
 
     docker stop $(docker ps -a -q)
-    # Windows restart-service *docker* or through the GUI in settings
-    # sudo systemctl restart docker
+    # Windows: restart-service *docker* or through the GUI in settings
+    # Linux: sudo systemctl restart docker
 
 ### (For Windows Users) Not Enough memory to start Docker
 
