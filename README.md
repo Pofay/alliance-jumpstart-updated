@@ -67,11 +67,28 @@ For Windows (Powershell > PS)
 
 ### Error For alliance-app: Cannot start service alliance-app: driver failed programming external connectivity on endpoint alliance-jumpstart-updated_alliance-app_1: Error starting userland proxy: mkdir /port/tcp:0.0.0.0:8010:tcp:172.18.0.3:8080
 
-Run the following Commands:
+** This usually happens when**:
+
+* The Database image was not run during the first docker-compose up
+* The port 8080 is already taken in your system.
+
+For the first symptom run the following Commands:
 
     docker stop $(docker ps -a -q)
     # Windows (Powershell): restart-service *docker* or through the GUI in settings
     # Linux: sudo systemctl restart docker
+
+    Then just run `docker-compose up` again
+
+For the second symptom: In the `docker-compose.yml` file
+
+    ports:
+        8080:8080 
+
+Replace with:
+
+    ports:
+        <YOUR-PREFERRED-PORT>:8080
 
 ### (For Windows Users) Not Enough memory to start Docker
 
