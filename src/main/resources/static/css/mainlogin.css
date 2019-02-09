@@ -254,7 +254,7 @@ iframe {
 [ Input ]*/
 
 .wrap-input100 {
-  width: 100%;
+  width: 80%;
   position: relative;
   border-bottom: 1px solid #b2b2b2;
 }
@@ -264,7 +264,7 @@ iframe {
   font-size: 15px;
   color: #808080;
   line-height: 1.2;
-  text-align: right;
+  text-align: left;
 
   position: absolute;
   top: 14px;
@@ -272,6 +272,7 @@ iframe {
   width: 80px;
 
 }
+
 
 /*---------------------------------------------*/
 .input100 {
@@ -281,7 +282,7 @@ iframe {
   line-height: 1.2;
 
   display: block;
-  width: 100%;
+  width: 80%;
   background: transparent;
   padding: 0 5px;
 }

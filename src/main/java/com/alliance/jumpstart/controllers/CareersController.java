@@ -1,6 +1,7 @@
 package com.alliance.jumpstart.controllers;
 
 import com.alliance.jumpstart.entities.Career;
+import com.alliance.jumpstart.entities.Task;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +12,7 @@ import com.alliance.jumpstart.entities.Applicant;
 import com.alliance.jumpstart.repository.ApplicantsRepository;
 import com.alliance.jumpstart.repository.CareersRepository;
 import com.alliance.jumpstart.services.StorageService;
+import com.alliance.jumpstart.services.TaskService;
 import com.alliance.jumpstart.viewmodels.ApplicantDetails;
 import com.alliance.jumpstart.viewmodels.ApplicantFormDetails;
 
@@ -32,6 +34,8 @@ public class CareersController {
     private CareersRepository repository;
     private StorageService service;
     private ApplicantsRepository applicantRepo;
+    @Autowired
+    private TaskService taskService;
 
     @Autowired
     public CareersController(CareersRepository repository, StorageService service, ApplicantsRepository applicantRepo) {
@@ -47,12 +51,22 @@ public class CareersController {
 
     @GetMapping(value = "/advertisement")
     public String advertisement(Model model) {
+    	
+    	 Iterable<Task> task = taskService.findAll();
+         model.addAttribute("allJob", task);
+         model.addAttribute("editTask", task);
+         
         return "dashboard/advertisement";
     }
 
     @GetMapping(value = "/reportanalytics")
     public String reportAnalytics(Model model) {
         return "dashboard/reportanalytics";
+    }
+    
+    @GetMapping(value = "/backtologin")
+    public String backToLogin(Model model) {
+        return "dashboard/login";
     }
 
     @GetMapping(value = "/resumebank")
@@ -79,57 +93,54 @@ public class CareersController {
         return "dashboard/resumebank";
     }
 
-    @GetMapping(value = "/login")
-    public String login(Model model) {
-        return "dashboard/login";
-    }
-
-    @GetMapping(value = "/register")
-    public String goToRegister(Model model) {
-        return "dashboard/register";
-    }
-
-    @GetMapping(value = "/backtologin")
-    public String backToLogin(Model model) {
-        return "dashboard/login";
-    }
-
-    @GetMapping(value = "/")
-    public String index(Model model) {
-        return "index";
-    }
+  
 
     @RequestMapping(value = "/careers", method = RequestMethod.GET)
     public String careers(Model model) {
         Iterable<Career> careers = repository.findAll();
         model.addAttribute("careers", careers);
-        return "careers/index";
+        return "careers/careers";
     }
 
-    @RequestMapping(value = "/careers/applyNow", method = RequestMethod.GET)
+    @RequestMapping(value = "/updatejob", method = RequestMethod.GET)
+    public String updateJob(@RequestParam(value = "id") int id, Model model) {
+        Task c = taskService.findById(id);
+                
+
+        model.addAttribute("updatejob", c);
+       
+        
+        return "dashboard/editJob";
+    }
+    
+    @RequestMapping(value = "/apply", method = RequestMethod.GET)
     public String applyNow(@RequestParam(value = "id") long id, Model model) {
         Career c = repository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
 
         model.addAttribute("career", c);
         model.addAttribute("formDetails", new ApplicantFormDetails());
+        System.out.println("Testing");
+        
         return "careers/application";
     }
 
-    @PostMapping(value = "/careers/applyNow")
+    @RequestMapping(value ="/careers/applyNow", method = RequestMethod.POST)
     public String createApplicant(@RequestParam(value = "id") long id,
-            @RequestParam(value = "file_cv") MultipartFile cv, @ModelAttribute ApplicantFormDetails details) {
+            @RequestParam(value = "file_cv") MultipartFile cv,
+            @RequestParam("position")String position ,@RequestParam("name")String name, @RequestParam("email")String email,
+    		@RequestParam("message")String message, Model model) {
 
         Career c = repository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
-
+        model.addAttribute("career", c);
         service.store(cv, LocalDateTime.now()).onSuccess((fileName) -> {
-            Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName,
-                    c.getPosition());
+            Applicant a = new Applicant(name, email, message, fileName,
+                    position);
             c.addApplicant(a);
             repository.save(c);
         }).onFailure((o) -> System.out.println(o));
-
-        return "redirect:/";
+        System.out.println("Testing1");
+        return "careers/application";
     }
 }
