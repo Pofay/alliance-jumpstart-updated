@@ -1,7 +1,7 @@
 package com.alliance.jumpstart.controllers;
 
 import com.alliance.jumpstart.entities.Career;
-import com.alliance.jumpstart.entities.Task;
+import com.alliance.jumpstart.entities.JobHiring;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +12,7 @@ import com.alliance.jumpstart.entities.Applicant;
 import com.alliance.jumpstart.repository.ApplicantsRepository;
 import com.alliance.jumpstart.repository.CareersRepository;
 import com.alliance.jumpstart.services.StorageService;
-import com.alliance.jumpstart.services.TaskService;
+import com.alliance.jumpstart.services.JobHiringService;
 import com.alliance.jumpstart.viewmodels.ApplicantDetails;
 import com.alliance.jumpstart.viewmodels.ApplicantFormDetails;
 
@@ -35,7 +35,7 @@ public class CareersController {
     private StorageService service;
     private ApplicantsRepository applicantRepo;
     @Autowired
-    private TaskService taskService;
+    private JobHiringService taskService;
 
     @Autowired
     public CareersController(CareersRepository repository, StorageService service, ApplicantsRepository applicantRepo) {
@@ -52,7 +52,7 @@ public class CareersController {
     @GetMapping(value = "/advertisement")
     public String advertisement(Model model) {
     	
-    	 Iterable<Task> task = taskService.findAll();
+    	 Iterable<JobHiring> task = taskService.findAll();
          model.addAttribute("allJob", task);
          model.addAttribute("editTask", task);
          
@@ -104,7 +104,7 @@ public class CareersController {
 
     @RequestMapping(value = "/updatejob", method = RequestMethod.GET)
     public String updateJob(@RequestParam(value = "id") int id, Model model) {
-        Task c = taskService.findById(id);
+        JobHiring c = taskService.findById(id);
                 
 
         model.addAttribute("updatejob", c);

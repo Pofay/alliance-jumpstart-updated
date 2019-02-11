@@ -1,6 +1,6 @@
 package com.alliance.jumpstart.utils;
 
-public enum TaskCategories {
+public enum JobHiringCategories {
     MEETING("MEETING"),
     PROJECT("PROJECT"),
     SHOPPING("SHOPPING"),
@@ -8,7 +8,7 @@ public enum TaskCategories {
     OUTDOOR("OUTDOOR");
     private String value;
 
-    TaskCategories(String value) {
+    JobHiringCategories(String value) {
         this.value = value;
     }
 

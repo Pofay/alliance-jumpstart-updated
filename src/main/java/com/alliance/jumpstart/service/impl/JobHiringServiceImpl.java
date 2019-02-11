@@ -2,9 +2,9 @@ package com.alliance.jumpstart.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.alliance.jumpstart.entities.Task;
-import com.alliance.jumpstart.repository.TaskRepository;
-import com.alliance.jumpstart.services.TaskService;
+import com.alliance.jumpstart.entities.JobHiring;
+import com.alliance.jumpstart.repository.JobHiringRepository;
+import com.alliance.jumpstart.services.JobHiringService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -12,13 +12,13 @@ import java.util.List;
 
 @Service
 @Transactional
-public class TaskServiceImpl implements TaskService {
+public class JobHiringServiceImpl implements JobHiringService {
 
     @Autowired
-    private TaskRepository taskRepository;
+    private JobHiringRepository taskRepository;
 
     @Override
-    public Task save(Task task) {
+    public JobHiring save(JobHiring task) {
         return taskRepository.save(task);
     }
 
@@ -32,33 +32,33 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task update(Task task) {
+    public JobHiring update(JobHiring task) {
         return taskRepository.save(task);
     }
 
     @Override
-    public Task findById(int id) {
+    public JobHiring findById(int id) {
         return taskRepository.findById(id).get();
     }
 
     @Override
-    public List<Task> findAll() {
-        return (List<Task>) taskRepository.findAll();
+    public List<JobHiring> findAll() {
+        return (List<JobHiring>) taskRepository.findAll();
     }
 
     @Override
-    public List<Task> findByStatus(String status) {
+    public List<JobHiring> findByStatus(String status) {
         return taskRepository.findByStatus(status);
     }
 
     @Override
-    public List<Task> findByUserIdStatus(int userId, String status) {
+    public List<JobHiring> findByUserIdStatus(int userId, String status) {
         //return  taskRepository.findByUserIdStatus(userId, status);
         return  taskRepository.findByUserIdAndStatus(userId, status);
     }
 
     @Override
-    public List<Task> findBetween(int start, int end) {
+    public List<JobHiring> findBetween(int start, int end) {
         return taskRepository.findBetween(start, end);
     }
 }

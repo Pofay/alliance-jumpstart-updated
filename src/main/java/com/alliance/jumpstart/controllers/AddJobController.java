@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alliance.jumpstart.entities.Career;
-import com.alliance.jumpstart.entities.Task;
-import com.alliance.jumpstart.repository.TaskRepository;
-import com.alliance.jumpstart.services.TaskService;
+import com.alliance.jumpstart.entities.JobHiring;
+import com.alliance.jumpstart.repository.JobHiringRepository;
+import com.alliance.jumpstart.services.JobHiringService;
 import com.alliance.jumpstart.utils.Status;
 
 import java.time.LocalDateTime;
@@ -30,12 +30,12 @@ public class AddJobController {
     private static final Logger logger = LoggerFactory.getLogger(AddJobController.class);
 
     @Autowired
-    private TaskService taskService;
+    private JobHiringService taskService;
     @Autowired
     private GlobalController globalController;
     
     @Autowired
-    TaskRepository taskrepository;
+    JobHiringRepository taskrepository;
 
     
   
@@ -48,12 +48,12 @@ public class AddJobController {
     		
                            final RedirectAttributes redirectAttributes) {
     	
-    	 Iterable<Task> task = taskService.findAll();
+    	 Iterable<JobHiring> task = taskService.findAll();
         model.addAttribute("allJob", task);
         logger.info("/task/save");
         try {
            
-        	Task t = new Task(position,qualification,responsibilities,LocalDateTime.now());
+        	JobHiring t = new JobHiring(position,qualification,responsibilities,LocalDateTime.now());
             taskService.save(t);
             redirectAttributes.addFlashAttribute("msg", "success");
             
@@ -69,12 +69,12 @@ public class AddJobController {
     
     
     @RequestMapping(value = {"/task/editTask"}, method = RequestMethod.POST)
-    public String editTodo(@ModelAttribute("editTask") Task editTask, Model model) {
+    public String editTodo(@ModelAttribute("editTask") JobHiring editTask, Model model) {
         logger.info("/task/editTask");
         
-        model.addAttribute("updatejob", new Task());
+        model.addAttribute("updatejob", new JobHiring());
         try {
-            Task task = taskService.findById(editTask.getId());
+            JobHiring task = taskService.findById(editTask.getId());
             editTask.setTaskDate(LocalDateTime.now());
             if (!task.equals(editTask)) {
                 taskService.update(editTask);
@@ -99,7 +99,7 @@ public class AddJobController {
 
         logger.info("/task/operation: {} ", operation);
         if (operation.equals("update")) {
-            Task task = taskService.findById(id);
+            JobHiring task = taskService.findById(id);
             if (task != null) {
                 task.setStatus(Status.PASSIVE.getValue());
                 taskService.update(task);
@@ -109,7 +109,7 @@ public class AddJobController {
             }
         }
         if (operation.equals("restore")) {
-            Task task = taskService.findById(id);
+            JobHiring task = taskService.findById(id);
             if (task != null) {
                 task.setStatus(Status.ACTIVE.getValue());
                 taskService.update(task);
@@ -129,7 +129,7 @@ public class AddJobController {
                 redirectAttributes.addFlashAttribute("msgText", " Task could not deleted. Please try later");
             }
         } else if (operation.equals("edit")) {
-            Task editTask = taskService.findById(id);
+            JobHiring editTask = taskService.findById(id);
             if (editTask != null) {
                 model.addAttribute("editTask", editTask);
                 return "edit";

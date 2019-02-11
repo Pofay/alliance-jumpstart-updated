@@ -24,9 +24,9 @@ import com.alliance.jumpstart.utils.PassEncoding;
 import com.alliance.jumpstart.utils.Roles;
 import com.alliance.jumpstart.utils.Status;
 
-import com.alliance.jumpstart.entities.Task;
+import com.alliance.jumpstart.entities.JobHiring;
 
-import com.alliance.jumpstart.services.TaskService;
+import com.alliance.jumpstart.services.JobHiringService;
 
 
 @Controller
@@ -40,7 +40,7 @@ public class UserController {
     GlobalController globalController;
 
     @Autowired
-    TaskService taskService;
+    JobHiringService taskService;
 
     @Autowired
     UserService userService;
@@ -94,7 +94,7 @@ public class UserController {
     
     @RequestMapping("/advertisement")
     public String home(Model model) {
-        Task task =new Task();
+        JobHiring task =new JobHiring();
         model.addAttribute("reqTask", task);
         model.addAttribute("allJob", taskService.findAll());
         model.addAttribute("allPassiveTask", taskService.findByUserIdStatus(globalController.getLoginUser().getId(), Status.PASSIVE.getValue()));

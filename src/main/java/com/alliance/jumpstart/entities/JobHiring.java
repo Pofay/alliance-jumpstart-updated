@@ -3,7 +3,7 @@ package com.alliance.jumpstart.entities;
 
 
 import org.springframework.format.annotation.DateTimeFormat;
-import com.alliance.jumpstart.utils.TaskCategories;
+import com.alliance.jumpstart.utils.JobHiringCategories;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Entity()
 @Table(name = "task", schema = "tododb")
-public class Task {
+public class JobHiring {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,7 +59,7 @@ public class Task {
     @Column(name = "task_date")
     private LocalDateTime taskDate;
 
-    public Task( String jobPosition, String qualification, String responsibilities, LocalDateTime localDateTime
+    public JobHiring( String jobPosition, String qualification, String responsibilities, LocalDateTime localDateTime
 			) {
 		super();
 		this.id = id;
@@ -75,7 +75,7 @@ public class Task {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    private TaskCategories category;
+    private JobHiringCategories category;
 
     @Column(name = "status")
     private String status;
@@ -84,7 +84,7 @@ public class Task {
     private int userId;
 
 
-    public Task() {
+    public JobHiring() {
     }
 
     public int getId() {
@@ -113,11 +113,11 @@ public class Task {
         this.createDate = createDate;
     }
 
-    public TaskCategories getCategory() {
+    public JobHiringCategories getCategory() {
         return category;
     }
 
-    public void setCategory(TaskCategories category) {
+    public void setCategory(JobHiringCategories category) {
         this.category = category;
     }
 
@@ -142,7 +142,7 @@ public class Task {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Task addjob = (Task) o;
+        JobHiring addjob = (JobHiring) o;
         return id == addjob.id &&
                 userId == addjob.userId &&
                 Objects.equals(jobPosition, addjob.jobPosition) &&
