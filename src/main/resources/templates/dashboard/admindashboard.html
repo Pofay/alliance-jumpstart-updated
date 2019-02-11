@@ -70,7 +70,7 @@ tr:hover {
       </button>
 
       <!-- Navbar Search -->
-      <h5 style="text-align:center; color:#fff;margin-left: 40%;position: absolute;">Welcome <strong style=" color:blue;">[[${#httpServletRequest.remoteUser}]]!</strong></h5>
+      <h5 id="welcome" style="text-align:center; color:#fff;margin-left: 40%;position: absolute;">Welcome <strong style=" color:blue;">[[${#httpServletRequest.remoteUser}]]!</strong></h5>
       <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -126,7 +126,7 @@ tr:hover {
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="sidebar navbar-nav" style="background: url(img/bg2.jpg);  background-size: cover;">
+      <ul class="sidebar navbar-nav" style="background: url(img/bg3.jpg);  background-size: cover;">
         <li class="nav-item active">
           <a class="nav-link" href="dashboard.html">
             <i class="fas fa-fw fa-tachometer-alt" style="color:red;"></i>
@@ -158,22 +158,7 @@ tr:hover {
             <span>Notifier</span></a>
         </li>
 		
-		 <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder" style="color: #fff;"></i>
-            <span>Pages</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Login Screens:</h6>
-            <a class="dropdown-item" href="login.html">Login</a>
-            <a class="dropdown-item" href="register.html">Register</a>
-            <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
-            <div class="dropdown-divider"></div>
-            <h6 class="dropdown-header">Other Pages:</h6>
-            <a class="dropdown-item" href="404.html">404 Page</a>
-            <a class="dropdown-item" href="blank.html">Blank Page</a>
-          </div>
-        </li>
+		 
 		
       </ul>
 
@@ -263,12 +248,14 @@ tr:hover {
           <!-- DataTables Example -->
           <div class="card mb-3">
             <div class="card-header">
-              <i class="fas fa-table"></i>
-              Data Table Application</div>
+             <h4 style="text-align:center;"> <i class="fas fa-table"></i>
+              Data Table <b>Application</b></div></div></h4>
             <div class="card-body">
               <div class="table-responsive">
+              <div class="container" style="background-color:#fff;">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead style="background-color: rgb(0, 123, 255);">
+                </div>
+                  <thead style="background-color:#eceff1;">
                     <tr>
 						
                       <th>ID</th>
@@ -317,7 +304,7 @@ tr:hover {
         <footer class="sticky-footer">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
-              <span>Copyright © Your Website 2018</span>
+              <span>Copyright © <b style="color:blue;">Alliance Jump Start Project</b> 2019</span>
             </div>
           </div>
         </footer>

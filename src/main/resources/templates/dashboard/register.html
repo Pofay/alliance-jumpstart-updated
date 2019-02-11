@@ -44,7 +44,49 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
 
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+</style>
 
 </head>
 <body>
@@ -74,12 +116,12 @@
 					<i class="fa fa-exclamation-triangle fa-2x"></i><strong>Error!</strong> User name already used !!!
 				</div>
 				</div>
-				<div class="container-fluid">
+				<div  class="container-fluid">
 				<div th:if="${saveUser eq 'unmatched password'}"
 					class="alert alert-danger alert-dismissable text-center">
 					<button type="button" class="close" data-dismiss="alert"
 						aria-hidden="true">&times;</button>
-					<i class="fa fa-exclamation-triangle fa-2x"></i><strong>Error!</strong> Paaword and Confirm password not match !!!
+					<i class="fa fa-exclamation-triangle fa-2x"></i><strong>Error!</strong> Password and Confirm password not match !!!
 				</div>
 				</div>
 				
@@ -108,7 +150,7 @@
 						data-validate="Empl0yee Name is required">
 						<span class=" label-input100"><i class="fa fa-smile-o" style="color:#ffd600;text-shadow: 1px 1px 1px #333;font-size:35px;" ></i></span> <input
 							class="input100" th:field="*{username}" type="text"
-							name="register_username" placeholder="Enter User Name"> <span
+							name="register_username" placeholder="Enter User Name" required> <span
 							class="focus-input100"></span>
 					</div>
 
@@ -116,14 +158,14 @@
 						data-validate="Position is required">
 						<span class="label-input100"><i class="fa fa-envelope-o" style="color:blue;text-shadow: 1px 1px 1px #333;font-size:35px;" ></i></span> <input class="input100"
 							th:field="*{email}" type="email" name="register_email"
-							placeholder="Enter Email"> <span class="focus-input100"></span>
+							placeholder="Enter Email" required> <span class="focus-input100"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-26"
 						data-validate="Username is required">
 						<span class="label-input100"><i class="fa fa-unlock-alt" style="color:#111;text-shadow: 1px 1px 1px #333;font-size:35px;" ></i></span> <input
 							class="input100" th:field="*{password}" type="password" 
-							name="register_password" placeholder="Enter Password"> <span
+							name="register_password" placeholder="Enter Password" required> <span
 							class="focus-input100"></span>
 					</div>
 
@@ -131,26 +173,32 @@
 						data-validate="Password is required">
 						<span class="label-input100"><i class="fa fa-unlock-alt" style="color:#555;text-shadow: 1px 1px 1px #333;font-size:35px;" ></i></span> <input
 							class="input100" th:field="*{password_2}" type="password" 
-							name="register_cpassword" placeholder="Confirmpassword"> <span
+							name="register_cpassword" placeholder="Confirmpassword" required> <span
 							class="focus-input100"></span>
 					</div>
 
 
 
 					<div class="container-login100-form-btn ">
-						<button type="submit" value="Register" class="login100-form-btn ">
+						<button onclick="myFunction()" type="submit" value="Register" class="login100-form-btn ">
 							REGISTER</button>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a
 							th:href="@{/backtologin}" id="btn_login"> Back to Login </a>
 					</div>
-
+					<div id="snackbar">Some text some message..</div>
 				</form>
 			</div>
 		</div>
 	</div>
 
-
+	<script>
+function myFunction() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+</script>
 
 
 	<!--===============================================================================================-->

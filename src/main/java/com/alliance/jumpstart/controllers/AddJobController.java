@@ -98,43 +98,13 @@ public class AddJobController {
                                 Model model) {
 
         logger.info("/task/operation: {} ", operation);
-        if (operation.equals("update")) {
-            JobHiring task = taskService.findById(id);
-            if (task != null) {
-                task.setStatus(Status.PASSIVE.getValue());
-                taskService.update(task);
-                redirectAttributes.addFlashAttribute("msg", "trash");
-            } else {
-                redirectAttributes.addFlashAttribute("msg", "notfound");
-            }
-        }
-        if (operation.equals("restore")) {
-            JobHiring task = taskService.findById(id);
-            if (task != null) {
-                task.setStatus(Status.ACTIVE.getValue());
-                taskService.update(task);
-                redirectAttributes.addFlashAttribute("msg", "active");
-                redirectAttributes.addFlashAttribute("msgText", "Task " + task.getJobPosition() + " Restored Successfully.");
-            } else {
-                redirectAttributes.addFlashAttribute("msg", "active_fail");
-                redirectAttributes.addFlashAttribute("msgText", "Task Activation failed !!! Task:" + task.getJobPosition());
-
-            }
-        } else if (operation.equals("delete")) {
+        if (operation.equals("delete")) {
             if (taskService.delete(id)) {
                 redirectAttributes.addFlashAttribute("msg", "del");
                 redirectAttributes.addFlashAttribute("msgText", " Task deleted permanently");
             } else {
                 redirectAttributes.addFlashAttribute("msg", "del_fail");
                 redirectAttributes.addFlashAttribute("msgText", " Task could not deleted. Please try later");
-            }
-        } else if (operation.equals("edit")) {
-            JobHiring editTask = taskService.findById(id);
-            if (editTask != null) {
-                model.addAttribute("editTask", editTask);
-                return "edit";
-            } else {
-                redirectAttributes.addFlashAttribute("msg", "notfound");
             }
         }
         return "redirect:/advertisement";

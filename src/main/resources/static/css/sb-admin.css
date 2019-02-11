@@ -373,3 +373,9 @@ body.sidebar-toggled footer.sticky-footer {
     width: calc(100% - 90px);
   }
 }
+
+@media screen and (max-width:580px) {
+	#welcome {
+		display: none;
+	}
+}
