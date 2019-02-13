@@ -51,11 +51,11 @@ public class CareersController {
 
     @GetMapping(value = "/advertisement")
     public String advertisement(Model model) {
-    	
-    	 Iterable<JobHiring> task = taskService.findAll();
-         model.addAttribute("allJob", task);
-         model.addAttribute("editTask", task);
-         
+
+        Iterable<JobHiring> task = taskService.findAll();
+        model.addAttribute("allJob", task);
+        model.addAttribute("editTask", task);
+
         return "dashboard/advertisement";
     }
 
@@ -63,7 +63,7 @@ public class CareersController {
     public String reportAnalytics(Model model) {
         return "dashboard/reportanalytics";
     }
-    
+
     @GetMapping(value = "/backtologin")
     public String backToLogin(Model model) {
         return "dashboard/login";
@@ -93,8 +93,6 @@ public class CareersController {
         return "dashboard/resumebank";
     }
 
-  
-
     @RequestMapping(value = "/careers", method = RequestMethod.GET)
     public String careers(Model model) {
         Iterable<Career> careers = repository.findAll();
@@ -105,14 +103,12 @@ public class CareersController {
     @RequestMapping(value = "/updatejob", method = RequestMethod.GET)
     public String updateJob(@RequestParam(value = "id") int id, Model model) {
         JobHiring c = taskService.findById(id);
-                
 
         model.addAttribute("updatejob", c);
-       
-        
+
         return "dashboard/editJob";
     }
-    
+
     @RequestMapping(value = "/apply", method = RequestMethod.GET)
     public String applyNow(@RequestParam(value = "id") long id, Model model) {
         Career c = repository.findById(Long.valueOf(id))
@@ -120,27 +116,24 @@ public class CareersController {
 
         model.addAttribute("career", c);
         model.addAttribute("formDetails", new ApplicantFormDetails());
-        System.out.println("Testing");
-        
+
         return "careers/application";
     }
 
-    @RequestMapping(value ="/careers/applyNow", method = RequestMethod.POST)
+    @RequestMapping(value = "/careers/applyNow", method = RequestMethod.POST)
     public String createApplicant(@RequestParam(value = "id") long id,
-            @RequestParam(value = "file_cv") MultipartFile cv,
-            @RequestParam("position")String position ,@RequestParam("name")String name, @RequestParam("email")String email,
-    		@RequestParam("message")String message, Model model) {
+            @RequestParam(value = "file_cv") MultipartFile cv, @ModelAttribute ApplicantFormDetails details) {
 
         Career c = repository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
-        model.addAttribute("career", c);
+
         service.store(cv, LocalDateTime.now()).onSuccess((fileName) -> {
-            Applicant a = new Applicant(name, email, message, fileName,
-                    position);
+            Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName,
+                    c.getPosition());
             c.addApplicant(a);
             repository.save(c);
         }).onFailure((o) -> System.out.println(o));
-        System.out.println("Testing1");
-        return "careers/application";
+
+        return "redirect:/careers";
     }
 }
