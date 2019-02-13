@@ -111,7 +111,7 @@ Hvae a Standard Application Properties
     spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
     spring.jpa.show-sql=false
 
-In order for this to work You must have atleast `[XAMPP v 7.*][xampp]` 
+In order for this to work You must have atleast [XAMPP v 7.+][xampp] 
 
 For Database Initialization either use **PhpMyAdmin** or through command line:
 
