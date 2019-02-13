@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>JUMP START PROGRAM</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<!-- Fonts -->
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet"
+	type="text/css">
+<link href="/css/animate.css" rel="stylesheet" />
+<!-- Squad theme CSS -->
+<link href="/css/style.css" rel="stylesheet">
+<link href="/color/default.css" rel="stylesheet">
+
+<!-- =======================================================
+    Theme Name: Squadfree
+    Theme URL: https://bootstrapmade.com/squadfree-free-bootstrap-template-creative/
+    Author: BootstrapMade
+    Author URL: https://bootstrapmade.com
+  ======================================================= -->
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+	<!-- Preloader -->
+	<div id="preloader">
+		<div id="load"></div>
+	</div>
+
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-main-collapse">
+					<i class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand" href="index.html"> <img
+					src="img/logo.jpg" height="42" width="180">
+				</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div
+				class="collapse navbar-collapse navbar-right navbar-main-collapse">
+				<ul class="nav navbar-nav">
+					<li><a  th:href="@{/}">Home</a></li>
+					<li class="dropdown active"><a
+						href="@{/careers/applyNow(id=${career.id})}"
+						class="dropdown-toggle" data-toggle="dropdown">Carrer <b
+							class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a  th:href="@{/careers}">Careers</a></li>
+							<li><a href="#">Working with us</a></li>
+
+						</ul></li>
+					<li><a href="#contact">About</a></li>
+					<li><a href="#service">Service</a></li>
+					<li><a href="#contact">Contact</a></li>
+
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+	</nav>
+
+	<!-- Section: intro -->
+	<section id="intro" class="intro">
+
+		<div class="slogan">
+			<h2>WE LOVE WHAT WE DO</h2>
+			<h4>
+				<span style="color: red;">Alliance Software</span> is expanding.
+			</h4>
+			<h4>
+				We are creating career opportunities for people with <br> <br>
+				great passion in Information Technology.
+			</h4>
+	</section>
+	<!-- /Section: intro -->
+
+	<div class="jumbotron jumbotron-fluid"
+		style="box-shadow: 10px 10px 5px #aaaaaa;">
+		<div class="container">
+			<h2 style="text-align: center; color: red;">CAREERS</h2>
+			<p
+				style="text-align: center; color: #111; font-weight: bold; font-size: 20px;">Alliance
+				Software, Inc. is the Philippines' largest independent Filipino
+				software development and business solutions company.</p>
+
+			<p style="color: blue;">Alliance Software, Inc. is the
+				Philippines' largest independent Filipino software development and
+				business solutions company. Our clients include Japan-based IT
+				companies, as well as leading Philippine-based companies.</p>
+			<br>
+			<p style="color: blue;">In the pursuit of our goal to continue
+				being a globally competitive software development and solutions
+				company, we are looking for creative and hardworking individuals who
+				would like to have a career in the IT industry.</p>
+			<br>
+			<p style="color: blue;">We are an equal opportunity employer.
+				Successful candidates can look forward to a competitive compensation
+				package designed to bring the best out of each Alliance team member.
+				Bonuses and incentives are also available based on individual and
+				team performances.</p>
+		</div>
+
+	</div>
+
+	<div class="container">
+		<div style="border-bottom: 5px solid red;">
+			<h4 style="text-align: center; color: #82b1ff;">Technical
+				Positions Opening</h4>
+		</div>
+		<div class="jumbotron" style="box-shadow: 1px 5px 8px 8px #888888;"
+			th:each="career: ${careers}">
+			<h4 th:text="${career.position}"/>
+					<h6 style="margin-left: 50px; font-style: normal;">
+						Qualifications:</h6>
+					<ul style="list-style-type: square; margin-left: 50px;">
+						<th:block th:each="qualification: ${career.qualifications}">
+							<li th:text="${qualification.description}"></li>
+						</th:block>
+					</ul>
+					<br>
+					<h6 style="margin-left: 50px; font-style: normal;">
+						Responsibilities:</h6>
+					<ul style="list-style-type: square; margin-left: 50px;">
+						<li>Proficient in oral and written English communication
+							skill</li>
+						<li>Can perform tasks needed for the project and willing to
+							go on overtime when necessary</li>
+						<li>Must have at least 6 years working experience in software
+							development</li>
+					</ul>
+					<a th:href="@{/careers/applyNow(id=${career.id})}"><button type="button"
+							class="btn btn-primary pull-right">Apply Now</button></a>
+		</div>
+		<br>
+
+		<div class="jumbotron"
+			style="box-shadow: 1px 1px 5px 1px #888888; background-color: red;">
+			<h6 style="color: #fff;">Interested and qualified applicants are
+				requested to email their application letter and resume with 2x2
+				colored picture to jobs@alliance.com.ph for immediate processing.
+				Please contact us for more inquiries.</h6>
+		</div>
+	</div>
+
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-lg-12">
+					<div class="wow shake" data-wow-delay="0.4s">
+						<div class="page-scroll marginbot-30">
+							<a href="#intro" id="totop" class="btn btn-circle"> <i
+								class="fa fa-angle-double-up animated"></i>
+							</a>
+						</div>
+					</div>
+					<p>&copy;Alliance. All rights reserved.</p>
+					<div class="credits">
+						<!--
+              All the links in the footer should remain intact. 
+              You can delete the links only if you purchased the pro version.
+              Licensing information: https://bootstrapmade.com/license/
+              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Squadfree
+            -->
+						Designed by <a href="https://bootstrapmade.com/">Unloved</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Core JavaScript Files -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.easing.min.js"></script>
+	<script src="js/jquery.scrollTo.js"></script>
+	<script src="js/wow.min.js"></script>
+	<!-- Custom Theme JavaScript -->
+	<script src="js/custom.js"></script>
+	<script src="contactform/contactform.js"></script>
+
+</body>
+
+</html>

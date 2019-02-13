@@ -8,6 +8,11 @@
     <meta name="description" content="Colorlib Templates">
     <meta name="author" content="Colorlib">
     <meta name="keywords" content="Colorlib Templates">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    
 
     <!-- Title Page-->
     <title>Apply for job by Alliance</title>
@@ -16,42 +21,57 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 
     <!-- Main CSS-->
-    <link href="/css/main.css" rel="stylesheet" media="all">
+    <link href="/static/css/main.css" rel="stylesheet" media="all">
+    
+  
 </head>
 
+
 <body>
-    <div class="page-wrapper  p-t-50 p-b-50" style="background-image: url(img/bg2.jpg);">
+	
+    <div class="page-wrapper  p-t-50 p-b-50" >
         <div class="wrapper wrapper--w900" >
-            <div class="card card-6" style=" box-shadow: 1px 5px 8px 8px #888888; background-color:blue;">
+            <div class="card card-6" style="box-shadow: 1px 5px 8px 8px #888888; background-image: linear-gradient(-90deg, blue, #fff);">
                 <div class="card-heading" >
-                    <h2 class="title" style="padding-left:10px; color:#111; ">Apply for job</h2>
+                    <h2 class="title" style="padding-left:10px; color:#111; ">Apply for job</h2>  
                 </div>
 				
                 <div class="card-body">
-				<h3 style="text-align:center; color:blue;" th:text="${career.position}"> </h3>
+				<!--  <h3 style="text-align:center; color:blue;" th:text="${career.position}"> </h3>-->
                     <form method="POST" 
                     enctype="multipart/form-data"
-                    th:action="@{/careers/applyNow(id=${career.id})}" th:object="${formDetails}">
+                    th:action="@{/careers/applyNow(id=${career.id})}" >
+                    
+                     
+                    <div class="form-row">
+                            <div class="name">Position</div>
+                            <div class="value">
+                                <input class="input--style-6" type="text" name="position" th:field="${career.position}">
+                            </div>
+                        </div>
+                    
+                  
+                    
                         <div class="form-row">
                             <div class="name">Full name</div>
                             <div class="value">
-                                <input class="input--style-6" type="text" th:field="*{fullName}">
+                                <input class="input--style-6" type="text" name="name">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="name">Email address</div>
                             <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-6" type="email" placeholder="example@email.com" th:field="*{email}">
-                                </div>
+                              
+                                    <input class="input--style-6" type="email" placeholder="example@email.com" name="email">
+                               
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="name">Message</div>
                             <div class="value">
-                                <div class="input-group">
-                                    <textarea class="textarea--style-6" name="message" placeholder="Message sent to the employer" th:field="*{message}"></textarea>
-                                </div>
+                                
+                                    <textarea class="textarea--style-6" name="message" placeholder="Message sent to the employer" ></textarea>
+                                
                             </div>
                         </div>
                         <div class="form-row">
@@ -59,15 +79,16 @@
                             <div class="value">
                                 <div class="input-group js-input-file">
                                     <input class="input-file" type="file" name="file_cv" id="file">
-                                    <label class="label--file" for="file">Choose file</label>
-                                    <span class="input-file__info">No file chosen</span>
+                                   
+                                   <!-- <span class="input-file__info"></span>-->
                                 </div>
-                                <div class="label--desc">Upload your CV/Resume or any other relevant file. Max file size 50 MB</div>
+                                <div style="display: inline" class="label--desc">Upload your CV/Resume or any other relevant file. Max file size 50 MB
+                                <button class="btn btn--radius-2 btn--blue-2" type="submit" style="float:right;">Send Application</button></div>
                             </div>
                         </div>
                 </div>
                 <div class="card-footer"  style="padding-top:10px;">
-                    <button class="btn btn--radius-2 btn--blue-2" type="submit" style="float:right;">Send Application</button>
+                    <img src="/static/img/logo.jpg" style=float:left; height="42" width="150"> <span style="float:right">Copyright © <b style="color:blue;">Alliance Jump Start Project</b> 2019</b></span>
                 </div>
             </form>
             </div>
@@ -75,13 +96,13 @@
     </div>
 
     <!-- Jquery JS-->
-    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="static/vendor/jquery/jquery.min.js"></script>
 
 
     <!-- Main JS-->
-    <script src="js/global.js"></script>
+    <script src="static/js/global.js"></script>
 
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</body>
 
 </html>
 <!-- end document-->
