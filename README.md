@@ -113,9 +113,7 @@ Hvae a Standard Application Properties
 
 In order for this to work You must have atleast [XAMPP v 7.+][xampp] 
 
-For Database Initialization either use **PhpMyAdmin** or through command line:
-
-(Replace <user> appropriately):
+For Database Initialization either use **PhpMyAdmin** and create a database named `jumpstart_db` or through command line:
 
     mysql -u <user> -p
     MariaDB> create database jumpstart_db
