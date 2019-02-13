@@ -111,15 +111,17 @@ Hvae a Standard Application Properties
     spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
     spring.jpa.show-sql=false
 
-`In order for this to work You must have atleast XAMPP v 7.2.*`
+In order for this to work You must have atleast `[XAMPP v 7.*][xampp]` 
 
-For Database Initialization (Replace <user> appropriately):
+For Database Initialization either use **PhpMyAdmin** or through command line:
+
+(Replace <user> appropriately):
 
     mysql -u <user> -p
     MariaDB> create database jumpstart_db
     (quit via Ctrl + c)
    
-Hopefefully, you should be able to run the Application without any issues.
+Hopefully, you should be able to run the Application without any issues.
     
 
-
+[xampp]: https://www.apachefriends.org/index.html
