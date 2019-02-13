@@ -45,6 +45,7 @@ public class FileSystemStorageService implements StorageService {
     private Validation<String, String> verifyAsDocOrPdf(String fileName) {
         return StringUtils.getFilenameExtension(fileName).equals("doc")
                 || StringUtils.getFilenameExtension(fileName).equals("pdf")
+                || StringUtils.getFilenameExtension(fileName).equals("docx")
                         ? Validation.valid(StringUtils.getFilenameExtension(fileName))
                         : Validation.invalid(fileName + " is not a .doc or .pdf");
 

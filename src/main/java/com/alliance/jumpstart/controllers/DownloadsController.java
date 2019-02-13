@@ -29,10 +29,10 @@ public class DownloadsController {
     public ResponseEntity<Resource> downloadResume(@PathVariable String fileName, HttpServletRequest request) {
         Resource r = service.loadAsResource(fileName).getOrElseThrow(() -> new RuntimeException());
 
-        String contentType = Try.of(() -> request.getServletContext().getMimeType(r.getFile().getAbsolutePath()))
-                .getOrElse("application.octet-stream");
+        MediaType contentType = Try.of(() -> request.getServletContext().getMimeType(r.getFile().getAbsolutePath()))
+                .map(MediaType::parseMediaType).getOrElse(MediaType.APPLICATION_OCTET_STREAM);
 
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+        return ResponseEntity.ok().contentType(contentType)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + r.getFilename() + "\"").body(r);
     }
 }

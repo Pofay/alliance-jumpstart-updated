@@ -98,3 +98,28 @@ Replace with:
 [windows]: https://hub.docker.com/editions/community/docker-ce-desktop-windows
 [jdk8]: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 [docker]: https://www.docker.com/
+
+### Standard Setup for those that can't run Docker
+
+Hvae a Standard Application Properties
+
+
+    spring.jpa.hibernate.ddl-auto=create-drop
+    spring.datasource.url=jdbc:mysql://alliance-db-server:3306/jumpstart_db
+    spring.datasource.username=root
+    spring.datasource.password=
+    spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
+    spring.jpa.show-sql=false
+
+`In order for this to work You must have atleast XAMPP v 7.2.*`
+
+For Database Initialization (Replace <user> appropriately):
+
+    mysql -u <user> -p
+    MariaDB> create database jumpstart_db
+    (quit via Ctrl + c)
+   
+Hopefefully, you should be able to run the Application without any issues.
+    
+
+
