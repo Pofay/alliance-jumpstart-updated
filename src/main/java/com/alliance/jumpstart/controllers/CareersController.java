@@ -11,6 +11,7 @@ import java.util.stream.StreamSupport;
 import com.alliance.jumpstart.entities.Applicant;
 import com.alliance.jumpstart.repository.ApplicantsRepository;
 import com.alliance.jumpstart.repository.CareersRepository;
+import com.alliance.jumpstart.repository.JobHiringRepository;
 import com.alliance.jumpstart.services.StorageService;
 import com.alliance.jumpstart.services.JobHiringService;
 import com.alliance.jumpstart.viewmodels.ApplicantDetails;
@@ -25,122 +26,132 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class CareersController {
 
-    private CareersRepository repository;
-    private StorageService service;
-    private ApplicantsRepository applicantRepo;
-    @Autowired
-    private JobHiringService taskService;
+	private CareersRepository repository;
+	private StorageService service;
+	private ApplicantsRepository applicantRepo;
+	@Autowired
+	private JobHiringService taskService;
 
-    @Autowired
-    public CareersController(CareersRepository repository, StorageService service, ApplicantsRepository applicantRepo) {
-        this.repository = repository;
-        this.applicantRepo = applicantRepo;
-        this.service = service;
-    }
+	@Autowired
+	private JobHiringRepository taskRepository;
 
-    @GetMapping(value = "/admindashboard")
-    public String adminDashboard(Model model) {
-        return "dashboard/admindashboard";
-    }
+	@Autowired
+	public CareersController(CareersRepository repository, StorageService service, ApplicantsRepository applicantRepo) {
+		this.repository = repository;
+		this.applicantRepo = applicantRepo;
+		this.service = service;
+	}
 
-    @GetMapping(value = "/advertisement")
-    public String advertisement(Model model) {
-    	
-    	 Iterable<JobHiring> task = taskService.findAll();
-         model.addAttribute("allJob", task);
-         model.addAttribute("editTask", task);
-         
-        return "dashboard/advertisement";
-    }
+	@GetMapping(value = "/admindashboard")
+	public String adminDashboard(Model model) {
+		return "dashboard/admindashboard";
+	}
 
-    @GetMapping(value = "/reportanalytics")
-    public String reportAnalytics(Model model) {
-        return "dashboard/reportanalytics";
-    }
-    
-    @GetMapping(value = "/backtologin")
-    public String backToLogin(Model model) {
-        return "dashboard/login";
-    }
+	@GetMapping(value = "/advertisement")
+	public String advertisement(Model model) {
 
-    @GetMapping(value = "/resumebank")
-    public String resumeBank(Model model) {
+		Iterable<JobHiring> task = taskService.findAll();
+		model.addAttribute("allJob", task);
+		model.addAttribute("editTask", task);
 
-        List<ApplicantDetails> applicants = StreamSupport.stream(applicantRepo.findAll().spliterator(), false)
-                .map(a -> {
-                    ApplicantDetails d = new ApplicantDetails();
+		return "dashboard/advertisement";
+	}
 
-                    String resumePath = ServletUriComponentsBuilder.fromCurrentContextPath().path("/resumes/")
-                            .path(a.getResumeFile()).toUriString();
+	@GetMapping(value = "/reportanalytics")
+	public String reportAnalytics(Model model) {
+		return "dashboard/reportanalytics";
+	}
 
-                    System.out.println(a.getAppliedPosition());
+	@GetMapping(value = "/backtologin")
+	public String backToLogin(Model model) {
+		return "dashboard/login";
+	}
 
-                    d.setId(a.getId());
-                    d.setAppliedPosition(a.getAppliedPosition());
-                    d.setEmail(a.getEmail());
-                    d.setFullName(a.getFullName());
-                    d.setResumeDownloadPath(resumePath);
-                    return d;
-                }).collect(Collectors.toList());
+	@GetMapping(value = "/resumebank")
+	public String resumeBank(Model model) {
 
-        model.addAttribute("applicants", applicants);
-        return "dashboard/resumebank";
-    }
+		List<ApplicantDetails> applicants = StreamSupport.stream(applicantRepo.findAll().spliterator(), false)
+				.map(a -> {
+					ApplicantDetails d = new ApplicantDetails();
 
-  
+					String resumePath = ServletUriComponentsBuilder.fromCurrentContextPath().path("/resumes/")
+							.path(a.getResumeFile()).toUriString();
 
-    @RequestMapping(value = "/careers", method = RequestMethod.GET)
-    public String careers(Model model) {
-        Iterable<Career> careers = repository.findAll();
-        model.addAttribute("careers", careers);
-        return "careers/careers";
-    }
+					System.out.println(a.getAppliedPosition());
 
-    @RequestMapping(value = "/updatejob", method = RequestMethod.GET)
-    public String updateJob(@RequestParam(value = "id") int id, Model model) {
-        JobHiring c = taskService.findById(id);
-                
+					d.setId(a.getId());
+					d.setAppliedPosition(a.getAppliedPosition());
+					d.setEmail(a.getEmail());
+					d.setFullName(a.getFullName());
+					d.setResumeDownloadPath(resumePath);
+					return d;
+				}).collect(Collectors.toList());
 
-        model.addAttribute("updatejob", c);
-       
-        
-        return "dashboard/editJob";
-    }
-    
-    @RequestMapping(value = "/apply", method = RequestMethod.GET)
-    public String applyNow(@RequestParam(value = "id") long id, Model model) {
-        Career c = repository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
+		model.addAttribute("applicants", applicants);
+		return "dashboard/resumebank";
+	}
 
-        model.addAttribute("career", c);
-        model.addAttribute("formDetails", new ApplicantFormDetails());
-        System.out.println("Testing");
-        
-        return "careers/application";
-    }
+	@RequestMapping(value = "/careers", method = RequestMethod.GET)
+	public String careers(Model model) {
+		Iterable<JobHiring> careers = taskRepository.findAll();
+		model.addAttribute("careers", careers);
+		return "careers/careers";
+	}
 
-    @RequestMapping(value ="/careers/applyNow", method = RequestMethod.POST)
-    public String createApplicant(@RequestParam(value = "id") long id,
-            @RequestParam(value = "file_cv") MultipartFile cv,
-            @RequestParam("position")String position ,@RequestParam("name")String name, @RequestParam("email")String email,
-    		@RequestParam("message")String message, Model model) {
+	@RequestMapping(value = "/updatejob", method = RequestMethod.GET)
+	public String updateJob(@RequestParam(value = "id") int id, Model model) {
+		JobHiring c = taskService.findById(id);
 
-        Career c = repository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
-        model.addAttribute("career", c);
-        service.store(cv, LocalDateTime.now()).onSuccess((fileName) -> {
-            Applicant a = new Applicant(name, email, message, fileName,
-                    position);
-            c.addApplicant(a);
-            repository.save(c);
-        }).onFailure((o) -> System.out.println(o));
-        System.out.println("Testing1");
-        return "careers/application";
-    }
+		model.addAttribute("updatejob", c);
+
+		return "dashboard/editJob";
+	}
+
+	@RequestMapping(value = "/apply", method = RequestMethod.GET)
+	public String applyNow(@RequestParam(value = "id") int id, Model model) {
+		JobHiring c = taskRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
+
+		model.addAttribute("career", c);
+		model.addAttribute("formDetails", new ApplicantFormDetails());
+		System.out.println("Testing");
+
+		return "careers/application";
+	}
+
+	/*
+	 * @RequestMapping(value ="/careers/applyNow", method = RequestMethod.POST)
+	 * public String createApplicant(@RequestParam(value = "id") long id,
+	 * 
+	 * @RequestParam(value = "file_cv") MultipartFile cv,
+	 * 
+	 * @RequestParam("position")String position ,@RequestParam("name")String
+	 * name, @RequestParam("email")String email,
+	 * 
+	 * @RequestParam("message")String message, Model model) {
+	 */
+	@RequestMapping(value = "/careers/applyNow", method = RequestMethod.POST)
+	public String createApplicant(@RequestParam(value = "id") int id, @RequestParam(value = "file_cv") MultipartFile cv,
+			@ModelAttribute ApplicantFormDetails details,RedirectAttributes redirectAttributes) {
+
+		JobHiring c = taskRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
+
+		service.store(cv, LocalDateTime.now()).onSuccess((fileName) -> {
+			Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName,
+					c.getJobPosition());
+			c.addApplicant(a);
+			taskService.save(c);
+			redirectAttributes.addFlashAttribute("sendApplication", "success");
+		}).onFailure((o) -> redirectAttributes.addFlashAttribute("sendError", "fail"));
+
+		return "redirect:/";
+	}
 }

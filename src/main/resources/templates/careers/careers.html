@@ -37,7 +37,7 @@
 		<div id="load"></div>
 	</div>
 
-	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-image: linear-gradient( yellow,#40c4ff);">
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-image: linear-gradient( #fff,#40c4ff);">
 		<div class="container">
 			<div class="navbar-header page-scroll">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -124,13 +124,11 @@
 		</div>
 		<div class="jumbotron" style="box-shadow: 1px 5px 8px 8px #888888;"
 			th:each="career: ${careers}">
-			<h4 th:text="${career.position}"/>
+			<h4 th:text="${career.jobPosition}"/>
 					<h6 style="margin-left: 50px; font-style: normal;">
 						Qualifications:</h6>
 					<ul style="list-style-type: square; margin-left: 50px;">
-						<th:block th:each="qualification: ${career.qualifications}">
-							<li th:text="${qualification.description}"></li>
-						</th:block>
+						<p th:utext="${#strings.replace( #strings.escapeXml( career.qualification ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}" ></p>
 					</ul>
 					<br>
 					<h6 style="margin-left: 50px; font-style: normal;">

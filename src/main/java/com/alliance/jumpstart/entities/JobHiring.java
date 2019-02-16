@@ -8,12 +8,16 @@ import com.alliance.jumpstart.utils.JobHiringCategories;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 
 @Entity()
 @Table(name = "task", schema = "tododb")
 public class JobHiring {
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Applicant> applicants;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -138,6 +142,14 @@ public class JobHiring {
     }
 
 
+    public void addApplicant(Applicant a) {
+        applicants.add(a);
+    }
+
+    public List<Applicant> getApplicants() {
+        return this.applicants;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -31,7 +31,7 @@
 		<div id="load"></div>
 	</div>
 
-	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-image: linear-gradient( yellow,#40c4ff);">
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-image: linear-gradient( #fff,#40c4ff);">
 		<div class="container">
 			<div class="navbar-header page-scroll">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -39,7 +39,7 @@
 					<i class="fa fa-bars"></i>
 				</button>
 				<a class="navbar-brand" href="index.html"> <img
-					src="static/img/logo.jpg" height="42" width="180">
+					src="/static/img/team/logo.jpg" height="42" width="180">
 				</a>
 			</div>
 
@@ -93,6 +93,23 @@
 
 	</section>
 	<!-- /Section: intro -->
+	
+	<div class="container-fluid">
+				<div th:if="${sendApplication eq 'success'}"
+					class="alert alert-danger alert-dismissable text-center">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-hidden="true">&times;</button>
+					<i class="fa fa-exclamation-triangle fa-2x"></i><strong>Error!</strong> Thank You !!!
+				</div>
+				</div>
+				<div class="container-fluid">
+				<div th:if="${sendError eq 'fail'}"
+					class="alert alert-danger alert-dismissable text-center">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-hidden="true">&times;</button>
+					<i class="fa fa-exclamation-triangle fa-2x"></i><strong>Error!</strong> Please Try Again !!!
+				</div>
+				</div>
 
 	<!-- Section: about -->
 	<section id="about" class="home-section text-center">
@@ -123,10 +140,10 @@
 					<div class="wow bounceInUp" data-wow-delay="0.2s">
 						<div class="team boxed-grey">
 							<div class="inner">
-								<h5>Anna Hanaceck</h5>
-								<p class="subtitle">Pixel Crafter</p>
+								<h5>Mond De La Victoria</h5>
+								<p class="subtitle">Web Designer</p>
 								<div class="avatar">
-									<img src="img/team/1.jpg" alt=""
+									<img src="/static/img/team/unloved.jpg" alt=""
 										class="img-responsive img-circle" />
 								</div>
 							</div>
@@ -137,10 +154,10 @@
 					<div class="wow bounceInUp" data-wow-delay="0.5s">
 						<div class="team boxed-grey">
 							<div class="inner">
-								<h5>Maura Daniels</h5>
-								<p class="subtitle">Ruby on Rails</p>
+								<h5>Gian Carlo Gilos</h5>
+								<p class="subtitle">Web  Programmer</p>
 								<div class="avatar">
-									<img src="img/team/2.jpg" alt=""
+									<img src="/static/img/team/Gian.jpg" alt=""
 										class="img-responsive img-circle" />
 								</div>
 
@@ -152,8 +169,8 @@
 					<div class="wow bounceInUp" data-wow-delay="0.8s">
 						<div class="team boxed-grey">
 							<div class="inner">
-								<h5>Jack Briane</h5>
-								<p class="subtitle">jQuery Ninja</p>
+								<h5>Patrick Esguerra</h5>
+								<p class="subtitle">JQuery Ninja</p>
 								<div class="avatar">
 									<img src="img/team/3.jpg" alt=""
 										class="img-responsive img-circle" />
