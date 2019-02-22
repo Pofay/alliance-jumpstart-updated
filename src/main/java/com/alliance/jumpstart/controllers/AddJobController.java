@@ -30,7 +30,7 @@ public class AddJobController {
     private static final Logger logger = LoggerFactory.getLogger(AddJobController.class);
 
     @Autowired
-    private JobHiringService taskService;
+    private JobHiringService jobService;
     @Autowired
     private GlobalController globalController;
     
@@ -43,18 +43,18 @@ public class AddJobController {
  
     
     @RequestMapping(value = {"/task/saveTask"}, method = RequestMethod.POST)
-    public String saveTodo(@RequestParam("position")String position ,@RequestParam("qualification")String qualification,
+    public String saveJobHiring(@RequestParam("position")String position ,@RequestParam("qualification")String qualification,
     		@RequestParam("responsibilities")String responsibilities,Model model,
     		
                            final RedirectAttributes redirectAttributes) {
     	
-    	 Iterable<JobHiring> task = taskService.findAll();
+    	 Iterable<JobHiring> task = jobService.findAll();
         model.addAttribute("allJob", task);
         logger.info("/task/save");
         try {
            
         	JobHiring t = new JobHiring(position,qualification,responsibilities,LocalDateTime.now());
-            taskService.save(t);
+            jobService.save(t);
             redirectAttributes.addFlashAttribute("msg", "success");
             
            
@@ -74,10 +74,10 @@ public class AddJobController {
         
         model.addAttribute("updatejob", new JobHiring());
         try {
-            JobHiring task = taskService.findById(editTask.getId());
+            JobHiring task = jobService.findById(editTask.getId());
             editTask.setTaskDate(LocalDateTime.now());
             if (!task.equals(editTask)) {
-                taskService.update(editTask);
+                jobService.update(editTask);
                 model.addAttribute("msg", "success");
             } else {
                 model.addAttribute("msg", "same");
@@ -99,7 +99,7 @@ public class AddJobController {
 
         logger.info("/task/operation: {} ", operation);
         if (operation.equals("delete")) {
-            if (taskService.delete(id)) {
+            if (jobService.delete(id)) {
                 redirectAttributes.addFlashAttribute("msg", "del");
                 redirectAttributes.addFlashAttribute("msgText", " Task deleted permanently");
             } else {
