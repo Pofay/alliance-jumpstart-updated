@@ -128,18 +128,15 @@
 					<h6 style="margin-left: 50px; font-style: normal;">
 						Qualifications:</h6>
 					<ul style="list-style-type: square; margin-left: 50px;">
-						<p th:utext="${#strings.replace( #strings.escapeXml( career.qualification ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}" ></p>
+					<p th:utext="${#strings.replace( #strings.escapeXml(career.qualification ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}" ></p>
+			
 					</ul>
 					<br>
 					<h6 style="margin-left: 50px; font-style: normal;">
 						Responsibilities:</h6>
 					<ul style="list-style-type: square; margin-left: 50px;">
-						<li>Proficient in oral and written English communication
-							skill</li>
-						<li>Can perform tasks needed for the project and willing to
-							go on overtime when necessary</li>
-						<li>Must have at least 6 years working experience in software
-							development</li>
+								<p th:utext="${#strings.replace( #strings.escapeXml( career.responsibilities ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}" ></p>
+				
 					</ul>
 					<a th:href="@{/apply(id=${career.id})}"><button type="button"
 							class="btn btn-primary pull-right">Apply Now</button></a>

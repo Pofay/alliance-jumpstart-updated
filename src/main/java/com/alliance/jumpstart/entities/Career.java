@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
- * Customer
+ *Applicant
  */
 @Entity
 public class Career {

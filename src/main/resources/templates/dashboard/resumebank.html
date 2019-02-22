@@ -275,7 +275,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Applied Position</th>
-
+					<th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -285,6 +285,7 @@
                     <td th:text="${applicant.fullName}"></td>
                     <td th:text="${applicant.email}"></td>
                     <td th:text="${applicant.appliedPosition}"></td>
+                    <td style="color:blue" th:text="${applicant.stat}" ></td>
 
                     <td>
                       <a

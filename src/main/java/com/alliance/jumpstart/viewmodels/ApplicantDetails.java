@@ -7,6 +7,16 @@ public class ApplicantDetails {
     private String email;
     private String appliedPosition;
     private String resumeDownloadPath;
+	private String stat="New";
+	
+    public String getStat() {
+		return stat;
+	}
+
+	public void setStat(String stat) {
+		this.stat = stat;
+	}
+
 
     public String getFullName() {
         return this.fullName;

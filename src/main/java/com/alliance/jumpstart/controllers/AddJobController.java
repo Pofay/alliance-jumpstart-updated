@@ -20,6 +20,9 @@ import com.alliance.jumpstart.repository.JobHiringRepository;
 import com.alliance.jumpstart.services.JobHiringService;
 import com.alliance.jumpstart.utils.Status;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 
@@ -30,12 +33,12 @@ public class AddJobController {
     private static final Logger logger = LoggerFactory.getLogger(AddJobController.class);
 
     @Autowired
-    private JobHiringService taskService;
+    private JobHiringService jobService;
     @Autowired
     private GlobalController globalController;
     
     @Autowired
-    JobHiringRepository taskrepository;
+    JobHiringRepository jobRepository;
 
     
   
@@ -48,13 +51,17 @@ public class AddJobController {
     		
                            final RedirectAttributes redirectAttributes) {
     	
-    	 Iterable<JobHiring> task = taskService.findAll();
+    	 Iterable<JobHiring> task = jobService.findAll();
         model.addAttribute("allJob", task);
         logger.info("/task/save");
+        String stat = "New";
+        long date_ = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d yyyy hh:mm");
+        String dateString = sdf.format(date_);
         try {
            
-        	JobHiring t = new JobHiring(position,qualification,responsibilities,LocalDateTime.now());
-            taskService.save(t);
+        	JobHiring jh = new JobHiring(position,qualification,responsibilities,dateString,stat);
+            jobService.save(jh);
             redirectAttributes.addFlashAttribute("msg", "success");
             
            
@@ -71,13 +78,16 @@ public class AddJobController {
     @RequestMapping(value = {"/task/editTask"}, method = RequestMethod.POST)
     public String editTodo(@ModelAttribute("editTask") JobHiring editTask, Model model) {
         logger.info("/task/editTask");
+        long date_ = System.currentTimeMillis();
+        SimpleDateFormat sdf_ = new SimpleDateFormat("MMM d yyyy hh:mm");
+        String dateString = sdf_.format(date_);
         
         model.addAttribute("updatejob", new JobHiring());
         try {
-            JobHiring task = taskService.findById(editTask.getId());
-            editTask.setTaskDate(LocalDateTime.now());
+            JobHiring task = jobService.findById(editTask.getId());
+            editTask.setTaskDate(dateString);
             if (!task.equals(editTask)) {
-                taskService.update(editTask);
+                jobService.update(editTask);
                 model.addAttribute("msg", "success");
             } else {
                 model.addAttribute("msg", "same");
@@ -99,7 +109,7 @@ public class AddJobController {
 
         logger.info("/task/operation: {} ", operation);
         if (operation.equals("delete")) {
-            if (taskService.delete(id)) {
+            if (jobService.delete(id)) {
                 redirectAttributes.addFlashAttribute("msg", "del");
                 redirectAttributes.addFlashAttribute("msgText", " Task deleted permanently");
             } else {

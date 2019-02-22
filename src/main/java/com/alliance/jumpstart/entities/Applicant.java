@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
- * Customer
+ * Applicant
  */
 @Entity
 public class Applicant {
@@ -25,6 +25,7 @@ public class Applicant {
     private String fullName;
     private String email;
     private String appliedPosition;
+	private String stat;
 
     protected Applicant() {
     }
@@ -35,8 +36,17 @@ public class Applicant {
         this.email = email;
         this.message = message;
         this.appliedPosition = position;
+        
     }
 
+    public String getStat() {
+		return stat;
+	}
+
+	public void setStat(String stat) {
+		this.stat = stat;
+	}
+    
     public String getResumeFile() {
         return this.resumeFile;
     }

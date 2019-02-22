@@ -40,7 +40,7 @@ public class UserController {
     GlobalController globalController;
 
     @Autowired
-    JobHiringService taskService;
+    JobHiringService jobService;
 
     @Autowired
     UserService userService;
@@ -96,8 +96,8 @@ public class UserController {
     public String home(Model model) {
         JobHiring task =new JobHiring();
         model.addAttribute("reqTask", task);
-        model.addAttribute("allJob", taskService.findAll());
-        model.addAttribute("allPassiveTask", taskService.findByUserIdStatus(globalController.getLoginUser().getId(), Status.PASSIVE.getValue()));
+        model.addAttribute("allJob", jobService.findAll());
+        model.addAttribute("allPassiveTask", jobService.findByUserIdStatus(globalController.getLoginUser().getId(), Status.PASSIVE.getValue()));
         logger.info("advertisement");
         return "advertisement";
     }

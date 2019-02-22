@@ -1,6 +1,9 @@
 package com.alliance.jumpstart.entities;
 
 import javax.persistence.*;
+
+import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 
 

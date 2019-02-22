@@ -85,12 +85,13 @@ public class CareersController {
 							.path(a.getResumeFile()).toUriString();
 
 					System.out.println(a.getAppliedPosition());
-
+					String stat="New";	
 					d.setId(a.getId());
 					d.setAppliedPosition(a.getAppliedPosition());
 					d.setEmail(a.getEmail());
 					d.setFullName(a.getFullName());
 					d.setResumeDownloadPath(resumePath);
+					d.setStat(stat);
 					return d;
 				}).collect(Collectors.toList());
 
@@ -140,7 +141,7 @@ public class CareersController {
 	@RequestMapping(value = "/careers/applyNow", method = RequestMethod.POST)
 	public String createApplicant(@RequestParam(value = "id") int id, @RequestParam(value = "file_cv") MultipartFile cv,
 			@ModelAttribute ApplicantFormDetails details,RedirectAttributes redirectAttributes) {
-
+		
 		JobHiring c = taskRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
 

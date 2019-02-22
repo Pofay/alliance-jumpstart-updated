@@ -16,7 +16,7 @@ import java.util.Objects;
 @Table(name = "task", schema = "tododb")
 public class JobHiring {
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Applicant> applicants;
 
     @Id
@@ -61,16 +61,17 @@ public class JobHiring {
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "task_date")
-    private LocalDateTime taskDate;
-
-    public JobHiring( String jobPosition, String qualification, String responsibilities, LocalDateTime localDateTime
+    private String nowDate;
+    
+    public JobHiring( String jobPosition, String qualification, String responsibilities, String nowDate,String status
 			) {
 		super();
 		this.id = id;
 		this.jobPosition = jobPosition;
 		this.qualification = qualification;
 		this.responsibilities = responsibilities;
-		this.taskDate = localDateTime;
+		this.nowDate = nowDate;
+		this.status = status;
 		
 	}
 
@@ -82,7 +83,7 @@ public class JobHiring {
     private JobHiringCategories category;
 
     @Column(name = "status")
-    private String status;
+    private String status="New";
 
     @Column(name = "user_id")
     private int userId;
@@ -101,12 +102,12 @@ public class JobHiring {
 
     
 
-   public LocalDateTime getTaskDate() {
-        return taskDate;
+   public String getTaskDate() {
+        return nowDate;
     }
 
-    public void setTaskDate(LocalDateTime taskDate) {
-        this.taskDate = taskDate;
+    public void setTaskDate(String taskDate) {
+        this.nowDate = taskDate;
     }
 
     public LocalDateTime getCreateDate() {
@@ -160,7 +161,7 @@ public class JobHiring {
                 Objects.equals(jobPosition, addjob.jobPosition) &&
                 Objects.equals(qualification, addjob.qualification) &&
                 Objects.equals(responsibilities, addjob.responsibilities) &&
-                Objects.equals(taskDate, addjob.taskDate) &&
+                Objects.equals(nowDate, addjob.nowDate) &&
                 Objects.equals(createDate, addjob.createDate) &&
                 category == addjob.category &&
                 Objects.equals(status, addjob.status);
@@ -169,7 +170,7 @@ public class JobHiring {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id,jobPosition, qualification, responsibilities, taskDate, createDate, category, status, userId);
+        return Objects.hash(id,jobPosition, qualification, responsibilities, nowDate, createDate, category, status, userId);
     }
 }
 
