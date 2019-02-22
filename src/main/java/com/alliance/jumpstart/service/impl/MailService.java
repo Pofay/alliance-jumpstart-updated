@@ -13,11 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.alliance.jumpstart.entities.SendMailToApplicant;
 
-/**
- * 
- * @author Mukuljaiswal
- *
- */
+
 @Service
 public class MailService {
 

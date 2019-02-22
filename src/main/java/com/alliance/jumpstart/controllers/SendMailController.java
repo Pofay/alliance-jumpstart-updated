@@ -38,8 +38,8 @@ public class SendMailController {
 		 * Creating a User with the help of User class that we have declared. Setting
 		 * the First,Last and Email address of the sender.
 		 */
-		user.setFirstName("Mukul");
-		user.setLastName("Jaiswal");
+		user.setFirstName("Unloved");
+		user.setLastName("Milds");
 		user.setEmailAddress("unloveddelavictoria@gmail.com");
 
 		/*
