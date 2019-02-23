@@ -1,5 +1,36 @@
 # Alliance Jumpstart Program
 
+# For Development: 
+
+## System Requirements:
+
+* [JDK 8][jdk8] or above
+* Standalone [MariaDB][mariadb] or installed through [XAMPP][xampp] 
+
+**Note: For those using [XAMPP][xampp] please run your MySQL and Apache instance through the control panel**
+
+The application-dev.properties are as follows:
+
+    spring.jpa.hibernate.ddl-auto=create-drop
+    spring.datasource.url = jdbc:mysql://localhost:3306/jumpstart_db?useLegacyDatetimeCode=false&serverTimezone=UTC
+    spring.datasource.username=root
+    spring.datasource.password=
+    spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+    spring.jpa.show-sql=false
+    server.port=8010
+
+**So that you won't have to change the defaults:**
+
+I suggest creating a **new and empty database with name of `jumpstart_db`** either through the terminal/shell:
+
+    mysql -u root -p
+    MariaDB> create database jumpstart_db
+
+Or through the xampp [phpMyAdmin][phpmyadmin].
+
+Also for those having `port` issues change the standard `8010` to a different port
+
+# Production Section:
 
 ## System Requirements
 
@@ -98,28 +129,6 @@ Replace with:
 [windows]: https://hub.docker.com/editions/community/docker-ce-desktop-windows
 [jdk8]: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 [docker]: https://www.docker.com/
-
-### Standard Setup for those that can't run Docker
-
-Hvae a Standard Application Properties
-
-
-    spring.jpa.hibernate.ddl-auto=create-drop
-    spring.datasource.url=jdbc:mysql://alliance-db-server:3306/jumpstart_db
-    spring.datasource.username=root
-    spring.datasource.password=
-    spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
-    spring.jpa.show-sql=false
-
-In order for this to work You must have atleast [XAMPP v 7.+][xampp] 
-
-For Database Initialization either use **PhpMyAdmin** and create a database named `jumpstart_db` or through command line:
-
-    mysql -u <user> -p
-    MariaDB> create database jumpstart_db
-    (quit via Ctrl + c)
-   
-Hopefully, you should be able to run the Application without any issues.
-    
-
 [xampp]: https://www.apachefriends.org/index.html
+[mariadb]: https://mariadb.org/download/
+[phpmyadmin]: https://www.phpmyadmin.net/
