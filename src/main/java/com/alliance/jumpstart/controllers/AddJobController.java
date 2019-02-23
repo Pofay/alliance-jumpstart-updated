@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alliance.jumpstart.entities.Career;
+import com.alliance.jumpstart.entities.CareerQualification;
 import com.alliance.jumpstart.entities.JobHiring;
+import com.alliance.jumpstart.repository.CareersRepository;
 import com.alliance.jumpstart.repository.JobHiringRepository;
 import com.alliance.jumpstart.services.JobHiringService;
 import com.alliance.jumpstart.utils.Status;
 
 import java.time.LocalDateTime;
-
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Controller
 @ComponentScan
@@ -31,47 +34,14 @@ public class AddJobController {
 
     @Autowired
     private JobHiringService jobService;
-    @Autowired
-    private GlobalController globalController;
-    
+
     @Autowired
     JobHiringRepository taskrepository;
 
-    
-  
-    
- 
-    
-    @RequestMapping(value = {"/task/saveTask"}, method = RequestMethod.POST)
-    public String saveJobHiring(@RequestParam("position")String position ,@RequestParam("qualification")String qualification,
-    		@RequestParam("responsibilities")String responsibilities,Model model,
-    		
-                           final RedirectAttributes redirectAttributes) {
-    	
-    	 Iterable<JobHiring> task = jobService.findAll();
-        model.addAttribute("allJob", task);
-        logger.info("/task/save");
-        try {
-           
-        	JobHiring t = new JobHiring(position,qualification,responsibilities,LocalDateTime.now());
-            jobService.save(t);
-            redirectAttributes.addFlashAttribute("msg", "success");
-            
-           
-            
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg", "fail");
-            logger.error("save: " + e.getMessage());
-        }
-
-        return "redirect:/advertisement";
-    }
-    
-    
-    @RequestMapping(value = {"/task/editTask"}, method = RequestMethod.POST)
+    @RequestMapping(value = { "/task/editTask" }, method = RequestMethod.POST)
     public String editTodo(@ModelAttribute("editTask") JobHiring editTask, Model model) {
         logger.info("/task/editTask");
-        
+
         model.addAttribute("updatejob", new JobHiring());
         try {
             JobHiring task = jobService.findById(editTask.getId());
@@ -87,28 +57,7 @@ public class AddJobController {
             logger.error("editTask: " + e.getMessage());
         }
         model.addAttribute("editTodo", editTask);
-        //return "/dashboard/editJob";
         return "redirect:/advertisement";
     }
-
-
-    @RequestMapping(value = "/task/{operation}/{id}", method = RequestMethod.GET)
-    public String todoOperation(@PathVariable("operation") String operation,
-                                @PathVariable("id") int id, final RedirectAttributes redirectAttributes,
-                                Model model) {
-
-        logger.info("/task/operation: {} ", operation);
-        if (operation.equals("delete")) {
-            if (jobService.delete(id)) {
-                redirectAttributes.addFlashAttribute("msg", "del");
-                redirectAttributes.addFlashAttribute("msgText", " Task deleted permanently");
-            } else {
-                redirectAttributes.addFlashAttribute("msg", "del_fail");
-                redirectAttributes.addFlashAttribute("msgText", " Task could not deleted. Please try later");
-            }
-        }
-        return "redirect:/advertisement";
-    }
-
 
 }

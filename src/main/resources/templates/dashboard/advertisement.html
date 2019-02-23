@@ -314,39 +314,39 @@ body {
 								<tr>
 									<th>ID</th>
 									<th>Job Hiring</th>
-									<th>Qaulification</th>
+									<th>Qualification</th>
 									<th>Responsibilities</th>
 									<th>Date Created</th>
 									<th>Actions</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:if="${#lists.isEmpty(allJob)}" class="btn-default">
+								<tr th:if="${#lists.isEmpty(careerAdvertisements)}" class="btn-default">
 									<td colspan="5" align="center">No Job Hiring Added</td>
 								</tr>
 
-								<tr th:each="task : ${allJob}">
+								<tr th:each="advertisement : ${careerAdvertisements}">
 
-									<td th:text="${task.id}"></td>
-									<td th:text="${task.jobPosition}"></td>
-									<td th:text="${task.qualification}"></td>
-									<td th:text="${task.responsibilities}"></td>
-									<td th:text="${task.taskDate}"></td>
+									<td th:text="${advertisement.id}"></td>
+									<td th:text="${advertisement.position}"></td>
+									<td th:text="${advertisement.qualifications}"></td>
+									<td th:text="${advertisement.responsibilities}"></td>
+									<td th:text="${advertisement.dateCreated}"></td>
 
 									<td><a class="add" title="Add" data-toggle="tooltip"><i
-											class="material-icons">&#xE03B;</i></a> <a th:href="@{/updatejob(id=${task.id})}" class="edit"
+											class="material-icons">&#xE03B;</i></a> <a th:href="@{/updatejob(id=${advertisement.id})}" class="edit"
 										title="Edit" ><i
 											class="material-icons">&#xE254;</i></a> 
 											
 											<a class="delete"
 										title="Delete" data-toggle="modal"
 										data-target="#modal-toTrash"
-										th:attr="data-target='#modal-toTrash'+${task.id}"><i
+										th:attr="data-target='#modal-toTrash'+${advertisement.id}"><i
 											class="material-icons">&#xE872;</i></a></td>
 
 									<!--start send to trash modal-->
 									<div class="modal modal-toTrash"
-										th:id="modal-toTrash+${task.id}">
+										th:id="modal-toTrash+${advertisement.id}">
 										<div class="modal-dialog">
 											<div class="modal-content">
 												<div class="modal-header">
@@ -362,7 +362,7 @@ body {
 												<div class="modal-footer">
 													<button class="btn " data-dismiss="modal"
 														aria-hidden="true">Cancel</button>
-													<a th:href="@{/task/delete/{id}(id=${task.id})}"> <span
+													<a th:href="@{/careers/delete/{id}(id=${advertisement.id})}"> <span
 														class="btn btn-danger" value="delete">Delete</span></a>
 
 												</div>
@@ -545,7 +545,7 @@ body {
 
 					</form>-->
 					
-					 <form th:action="@{/task/saveTask}" method="post"
+					 <form th:action="@{/careers/save}" method="post"
 						style="max-width: 500px; margin: auto">
                     
                     	
@@ -624,7 +624,8 @@ body {
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login.html">Logout</a>
+					<a class="btn btn-primary" th:href=
+					"@{/logout}">Logout</a>
 				</div>
 			</div>
 		</div>

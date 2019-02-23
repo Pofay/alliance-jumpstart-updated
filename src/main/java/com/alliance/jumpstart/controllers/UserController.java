@@ -163,8 +163,4 @@ public class UserController {
 
         return "redirect:/register";
     }
-    
-    	
-
-
 }

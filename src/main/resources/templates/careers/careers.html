@@ -136,12 +136,11 @@
 					<h6 style="margin-left: 50px; font-style: normal;">
 						Responsibilities:</h6>
 					<ul style="list-style-type: square; margin-left: 50px;">
-						<li>Proficient in oral and written English communication
-							skill</li>
-						<li>Can perform tasks needed for the project and willing to
-							go on overtime when necessary</li>
-						<li>Must have at least 6 years working experience in software
-							development</li>
+					<th:block th:each="responsibility: ${career.responsibilities}">
+						<li th:text="${responsibility.description}"></li>
+					</th:block>
+					</th:block>
+					
 					</ul>
 					<a th:href="@{/apply(id=${career.id})}"><button type="button"
 							class="btn btn-primary pull-right">Apply Now</button></a>

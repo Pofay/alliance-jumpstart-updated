@@ -1,5 +1,6 @@
 package com.alliance.jumpstart.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,21 +26,34 @@ public class Career {
     private List<CareerQualification> qualifications;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Applicant> applicants;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CareerResponsibility> responsibilities;
+    private LocalDateTime dateCreated;
 
     protected Career() {
     }
 
-    public Career(String position) {
+    public Career(String position, LocalDateTime dateCreated) {
         this.position = position;
         this.qualifications = new ArrayList<>();
+        this.responsibilities = new ArrayList<>();
+        this.dateCreated = dateCreated;
     }
 
     public List<CareerQualification> getQualifications() {
         return this.qualifications;
     }
+    
+    public List<CareerResponsibility> getResponsibilities() {
+        return this.responsibilities;
+    }
 
     public void addQualification(String description) {
         qualifications.add(new CareerQualification(description));
+    }
+
+    public void addResponsibility(String description) {
+        responsibilities.add(new CareerResponsibility(description));
     }
 
     public void addApplicant(Applicant a) {
@@ -52,6 +66,10 @@ public class Career {
 
     public String getPosition() {
         return this.position;
+    }
+
+    public LocalDateTime getDateCreated() {
+        return this.dateCreated;
     }
 
     public Long getId() {

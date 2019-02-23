@@ -4,6 +4,7 @@ import com.alliance.jumpstart.entities.Career;
 import com.alliance.jumpstart.entities.JobHiring;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -15,21 +16,27 @@ import com.alliance.jumpstart.services.StorageService;
 import com.alliance.jumpstart.services.JobHiringService;
 import com.alliance.jumpstart.viewmodels.ApplicantDetails;
 import com.alliance.jumpstart.viewmodels.ApplicantFormDetails;
+import com.alliance.jumpstart.viewmodels.CareerAdvertisement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class CareersController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AddJobController.class);
 
     private CareersRepository repository;
     private StorageService service;
@@ -52,11 +59,56 @@ public class CareersController {
     @GetMapping(value = "/advertisement")
     public String advertisement(Model model) {
 
-        Iterable<JobHiring> task = taskService.findAll();
-        model.addAttribute("allJob", task);
-        model.addAttribute("editTask", task);
+        List<CareerAdvertisement> advertisements = StreamSupport.stream(repository.findAll().spliterator(), false)
+                .map(career -> {
+                    String responsibilities = career.getResponsibilities().stream()
+                            .map(responsibility -> responsibility.getDescription())
+                            .reduce("", (acc, val) -> val + ", " + acc);
+
+                    String qualifications = career.getQualifications().stream()
+                            .map(qualification -> qualification.getDescription())
+                            .reduce("", (acc, val) -> val + ", " + acc);
+
+                    CareerAdvertisement advertisement = new CareerAdvertisement();
+
+                    advertisement.setDateCreated(career.getDateCreated());
+                    advertisement.setId(career.getId());
+                    advertisement.setPosition(career.getPosition());
+                    advertisement.setQualifications(qualifications);
+                    advertisement.setResponsibilities(responsibilities);
+
+                    return advertisement;
+                }).collect(Collectors.toList());
+
+        model.addAttribute("careerAdvertisements", advertisements);
+        model.addAttribute("editTask", advertisements);
 
         return "dashboard/advertisement";
+    }
+
+    @RequestMapping(value = { "/careers/save" }, method = RequestMethod.POST)
+    public String saveJobHiring(@RequestParam("position") String position,
+            @RequestParam("qualification") String qualification,
+            @RequestParam("responsibilities") String responsibilities, Model model,
+
+            final RedirectAttributes redirectAttributes) {
+
+        logger.info("/careers/save");
+        try {
+            Career c = new Career(position, LocalDateTime.now());
+
+            Arrays.asList(qualification.split(",")).stream().forEach(c::addQualification);
+            Arrays.asList(responsibilities.split(",")).stream().forEach(c::addResponsibility);
+
+            this.repository.save(c);
+            redirectAttributes.addFlashAttribute("msg", "success");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("msg", "fail");
+            logger.error("save: " + e.getMessage());
+        }
+
+        return "redirect:/advertisement";
     }
 
     @GetMapping(value = "/reportanalytics")
@@ -136,4 +188,15 @@ public class CareersController {
 
         return "redirect:/careers";
     }
+
+    @RequestMapping(value = "/careers/delete/{id}", method = RequestMethod.GET)
+    public String todoOperation(@PathVariable("id") int id, final RedirectAttributes redirectAttributes, Model model) {
+
+        logger.info("/careers/delete/{} ", id);
+        this.repository.deleteById(new Long(id));
+        redirectAttributes.addFlashAttribute("msg", "del");
+        redirectAttributes.addFlashAttribute("msgText", " Task deleted permanently");
+        return "redirect:/advertisement";
+    }
+
 }

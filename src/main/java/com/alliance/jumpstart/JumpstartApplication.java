@@ -6,6 +6,7 @@ import com.alliance.jumpstart.services.StorageService;
 
 import com.alliance.jumpstart.JumpstartApplication;
 
+import java.time.LocalDateTime;
 import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
@@ -24,25 +25,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 
-@EntityScan(basePackageClasses = { 
-		JumpstartApplication.class,
-		Jsr310JpaConverters.class 
-})
+@EntityScan(basePackageClasses = { JumpstartApplication.class, Jsr310JpaConverters.class })
 @EnableTransactionManagement
-public class JumpstartApplication implements WebMvcConfigurer{
+public class JumpstartApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JumpstartApplication.class, args);
 	}
 
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+		registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
 
-    @Override
-	 public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-	        registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
+	}
 
-	    }
-	
 	@Bean
 	public CommandLineRunner demo(CareersRepository repository, StorageService service) {
 
@@ -57,19 +54,22 @@ public class JumpstartApplication implements WebMvcConfigurer{
 			 * Customer("Michelle", "Dessler"));
 			 */
 
-			Career c1 = new Career("Senior Technical Specialist");
+			Career c1 = new Career("Senior Technical Specialist", LocalDateTime.now());
 			c1.addQualification("A degree holder of Computer Science, Computer Engineering or Information Technology");
 			c1.addQualification("Must have at least 6 years working experience in software development");
+			c1.addResponsibility("Implementation of Technical Work as specified by project proponent and/or assigned by Technical Supervisor.");
 
-			Career c2 = new Career("Associate Technical Specialist");
+
+			Career c2 = new Career("Associate Technical Specialist", LocalDateTime.now());
 			c2.addQualification("A degree holder of Computer Science, Computer Engineering or Information Technology");
 			c2.addQualification("Must have at least 4 years working experience in software development");
+            c2.addResponsibility("Implementation of Technical Work as specified by project proponent and/or assigned by Technical Supervisor.");
+
 
 			repository.save(c1);
 			repository.save(c2);
 			service.init();
 		};
 	}
-	
 
 }
