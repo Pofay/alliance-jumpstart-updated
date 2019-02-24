@@ -8,9 +8,24 @@ public class ApplicantDetails {
     private String appliedPosition;
     private String resumeDownloadPath;
     private String message;
+    private String status;
 
     public String getFullName() {
         return this.fullName;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**

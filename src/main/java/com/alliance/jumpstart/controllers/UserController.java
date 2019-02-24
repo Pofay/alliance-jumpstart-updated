@@ -14,9 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alliance.jumpstart.repository.CareersRepository;
 
-import com.alliance.jumpstart.entities.Career;
-
-
 import com.alliance.jumpstart.entities.User;
 
 import com.alliance.jumpstart.services.UserService;
@@ -28,14 +25,13 @@ import com.alliance.jumpstart.entities.JobHiring;
 
 import com.alliance.jumpstart.services.JobHiringService;
 
-
 @Controller
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     CareersRepository repository;
-    
+
     @Autowired
     GlobalController globalController;
 
@@ -44,17 +40,12 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    
-  
 
-    /*@RequestMapping("/")
-    public String root(Model model) {
-        model.addAttribute("reqUser", new User());
-        logger.info("root");
-        return "login";
-    }*/
-    
-   
+    /*
+     * @RequestMapping("/") public String root(Model model) {
+     * model.addAttribute("reqUser", new User()); logger.info("root"); return
+     * "login"; }
+     */
 
     @RequestMapping("/login")
     public String login(Model model) {
@@ -62,58 +53,47 @@ public class UserController {
         logger.info("login");
         return "login";
     }
-    
-    
-    
-    
 
-	 /*@GetMapping(value="/")
-	    public String index(Model model) {
-	    	return "applicant/index";
-	    }
-	    
-	 @RequestMapping(value = "/careers ")
-	    public String careers(Model model) {
-	       
-		 
-	        return "applicant/careers";
-	    }*/
-	
-    
+    /*
+     * @GetMapping(value="/") public String index(Model model) { return
+     * "applicant/index"; }
+     * 
+     * @RequestMapping(value = "/careers ") public String careers(Model model) {
+     * 
+     * 
+     * return "applicant/careers"; }
+     */
 
+    /*
+     * @RequestMapping("/home") public String home(Model model) { Task task =new
+     * Task(); model.addAttribute("reqTask", task); model.addAttribute("allTask",
+     * taskService.findByUserIdStatus(globalController.getLoginUser().getId(),
+     * Status.ACTIVE.getValue())); model.addAttribute("allPassiveTask",
+     * taskService.findByUserIdStatus(globalController.getLoginUser().getId(),
+     * Status.PASSIVE.getValue())); logger.info("home"); return "home"; }
+     */
 
-   /* @RequestMapping("/home")
-    public String home(Model model) {
-        Task task =new Task();
-        model.addAttribute("reqTask", task);
-        model.addAttribute("allTask", taskService.findByUserIdStatus(globalController.getLoginUser().getId(), Status.ACTIVE.getValue()));
-        model.addAttribute("allPassiveTask", taskService.findByUserIdStatus(globalController.getLoginUser().getId(), Status.PASSIVE.getValue()));
-        logger.info("home");
-        return "home";
-    }*/
-    
     @RequestMapping("/advertisement")
     public String home(Model model) {
-        JobHiring task =new JobHiring();
+        JobHiring task = new JobHiring();
         model.addAttribute("reqTask", task);
         model.addAttribute("allJob", taskService.findAll());
-        model.addAttribute("allPassiveTask", taskService.findByUserIdStatus(globalController.getLoginUser().getId(), Status.PASSIVE.getValue()));
+        model.addAttribute("allPassiveTask",
+                taskService.findByUserIdStatus(globalController.getLoginUser().getId(), Status.PASSIVE.getValue()));
         logger.info("advertisement");
         return "advertisement";
     }
-
 
     @RequestMapping("/admin")
     public String helloAdmin() {
         logger.info("admin");
         return "admin";
     }
-    
+
     @GetMapping(value = "/login")
     public String logins(Model model) {
         return "dashboard/login";
     }
-
 
     @GetMapping(value = "/")
     public String index(Model model) {
@@ -127,21 +107,19 @@ public class UserController {
         logger.info("register");
         return "dashboard/register";
     }
-    
-    
 
-    @RequestMapping(value = {"/user/register"}, method = RequestMethod.POST)
-    public String register(@ModelAttribute("reqUser") User reqUser, @RequestParam("password")String password,@RequestParam("password_2")String password_2, 
-                           final RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = { "/user/register" }, method = RequestMethod.POST)
+    public String register(@ModelAttribute("reqUser") User reqUser, @RequestParam("password") String password,
+            @RequestParam("password_2") String password_2, final RedirectAttributes redirectAttributes) {
 
         logger.info("/user/register");
         User user = userService.findByUserName(reqUser.getUsername());
-        
+
         if (!password.equals(password_2)) {
             redirectAttributes.addFlashAttribute("saveUser", "unmatched password");
             return "redirect:/register";
         }
-        
+
         if (user != null) {
             redirectAttributes.addFlashAttribute("saveUser", "exist-name");
             return "redirect:/register";

@@ -14,6 +14,7 @@ import com.alliance.jumpstart.entities.Applicant;
 import com.alliance.jumpstart.repository.ApplicantsRepository;
 import com.alliance.jumpstart.repository.CareersRepository;
 import com.alliance.jumpstart.services.StorageService;
+import com.alliance.jumpstart.utils.ViewModelMapper;
 import com.alliance.jumpstart.services.JobHiringService;
 import com.alliance.jumpstart.viewmodels.ApplicantDetails;
 import com.alliance.jumpstart.viewmodels.ApplicantFormDetails;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,25 +61,7 @@ public class CareersController {
     public String advertisement(Model model) {
 
         List<CareerAdvertisement> advertisements = StreamSupport.stream(repository.findAll().spliterator(), false)
-                .map(career -> {
-                    String responsibilities = career.getResponsibilities().stream()
-                            .map(responsibility -> responsibility.getDescription())
-                            .reduce("", (acc, val) -> val + ", " + acc);
-
-                    String qualifications = career.getQualifications().stream()
-                            .map(qualification -> qualification.getDescription())
-                            .reduce("", (acc, val) -> val + ", " + acc);
-
-                    CareerAdvertisement advertisement = new CareerAdvertisement();
-
-                    advertisement.setDateCreated(career.getDateCreated());
-                    advertisement.setId(career.getId());
-                    advertisement.setPosition(career.getPosition());
-                    advertisement.setQualifications(qualifications);
-                    advertisement.setResponsibilities(responsibilities);
-
-                    return advertisement;
-                }).collect(Collectors.toList());
+                .map(ViewModelMapper::toAdvertisementViewModel).collect(Collectors.toList());
 
         model.addAttribute("careerAdvertisements", advertisements);
         model.addAttribute("editTask", advertisements);
@@ -96,12 +78,7 @@ public class CareersController {
 
         logger.info("/careers/save");
         try {
-            Career c = new Career(position, LocalDateTime.now());
-
-            Arrays.asList(qualification.split(",")).stream().forEach(c::addQualification);
-            Arrays.asList(responsibilities.split(",")).stream().forEach(c::addResponsibility);
-
-            this.repository.save(c);
+            this.createCareer(position, qualification, responsibilities);
             redirectAttributes.addFlashAttribute("msg", "success");
 
         } catch (Exception e) {
@@ -126,22 +103,7 @@ public class CareersController {
     public String resumeBank(Model model) {
 
         List<ApplicantDetails> applicants = StreamSupport.stream(applicantRepo.findAll().spliterator(), false)
-                .map(a -> {
-                    ApplicantDetails d = new ApplicantDetails();
-
-                    String resumePath = ServletUriComponentsBuilder.fromCurrentContextPath().path("/resumes/")
-                            .path(a.getResumeFile()).toUriString();
-
-                    System.out.println(a.getAppliedPosition());
-
-                    d.setId(a.getId());
-                    d.setAppliedPosition(a.getAppliedPosition());
-                    d.setEmail(a.getEmail());
-                    d.setFullName(a.getFullName());
-                    d.setResumeDownloadPath(resumePath);
-                    return d;
-                }).collect(Collectors.toList());
-
+                .map(ViewModelMapper::toDetailsViewModel).collect(Collectors.toList());
         model.addAttribute("applicants", applicants);
         return "dashboard/resumebank";
     }
@@ -180,24 +142,36 @@ public class CareersController {
         Career c = repository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
 
-        service.store(cv, UUID.randomUUID()).onSuccess((fileName) -> {
-            Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName,
-                    c.getPosition());
-            c.addApplicant(a);
-            repository.save(c);
-        }).onFailure((o) -> System.out.println(o));
+        service.store(cv, UUID.randomUUID()).onSuccess((fileName) -> this.createAndSaveApplicant(details, c, fileName))
+                .onFailure((o) -> System.out.println(o));
 
         return "redirect:/careers";
     }
 
     @RequestMapping(value = "/careers/delete/{id}", method = RequestMethod.GET)
-    public String todoOperation(@PathVariable("id") int id, final RedirectAttributes redirectAttributes, Model model) {
+    public String deleteCareer(@PathVariable("id") int id, final RedirectAttributes redirectAttributes, Model model) {
 
         logger.info("/careers/delete/{} ", id);
         this.repository.deleteById(new Long(id));
         redirectAttributes.addFlashAttribute("msg", "del");
-        redirectAttributes.addFlashAttribute("msgText", " Task deleted permanently");
+        redirectAttributes.addFlashAttribute("msgText", " Career deleted permanently");
         return "redirect:/advertisement";
+    }
+
+    private void createAndSaveApplicant(ApplicantFormDetails details, Career c, String fileName) {
+        Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName,
+                c.getPosition());
+        c.addApplicant(a);
+        repository.save(c);
+    }
+
+    private void createCareer(String position, String qualification, String responsibilities) {
+        Career c = new Career(position, LocalDateTime.now());
+
+        Arrays.asList(qualification.split(",")).stream().forEach(c::addQualification);
+        Arrays.asList(responsibilities.split(",")).stream().forEach(c::addResponsibility);
+
+        this.repository.save(c);
     }
 
 }

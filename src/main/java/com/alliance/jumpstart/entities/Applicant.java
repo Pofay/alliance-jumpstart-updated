@@ -20,6 +20,7 @@ public class Applicant {
     private String fullName;
     private String email;
     private String appliedPosition;
+    private String status;
 
     protected Applicant() {
     }
@@ -30,6 +31,7 @@ public class Applicant {
         this.email = email;
         this.message = message;
         this.appliedPosition = position;
+        this.status = "NEW";
     }
 
     public String getResumeFile() {
@@ -54,6 +56,14 @@ public class Applicant {
 
     public String getAppliedPosition() {
         return this.appliedPosition;
+    }
+
+    public void setStatus(String newStatus) {
+        this.status = newStatus;
+    }
+
+    public String getStatus() {
+        return this.status;
     }
 
 }

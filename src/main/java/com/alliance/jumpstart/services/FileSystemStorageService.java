@@ -32,10 +32,14 @@ public class FileSystemStorageService implements StorageService {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         return Validation.combine(isNotEmpty(file, fileName), verifyAsDocOrPdf(fileName), isNotRelative(fileName))
                 .ap((f, extension, filePath) -> new StoragePayload(f, extension, identifier.toString())).toTry()
-                .flatMap((payload) -> Try
-                        .withResources(() -> payload.file.getInputStream()).of((stream) -> Files.copy(stream,
-                                this.rootLocation.resolve(payload.newFileName), StandardCopyOption.REPLACE_EXISTING))
-                        .map(o -> payload.newFileName));
+                .flatMap((payload) -> saveToUploadDir(payload));
+    }
+
+    private Try<String> saveToUploadDir(StoragePayload payload) {
+        return Try
+                .withResources(() -> payload.file.getInputStream()).of((stream) -> Files.copy(stream,
+                        this.rootLocation.resolve(payload.newFileName), StandardCopyOption.REPLACE_EXISTING))
+                .map(o -> payload.newFileName);
     }
 
     private Validation<String, MultipartFile> isNotEmpty(MultipartFile f, String cleanFileName) {

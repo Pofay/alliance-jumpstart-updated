@@ -212,6 +212,7 @@
         </li>
 
         
+
       </ul>
 
       <div id="content-wrapper">
@@ -275,6 +276,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Applied Position</th>
+                    <th>Hiring Status</th>
 
                     <th>Actions</th>
                   </tr>
@@ -285,14 +287,15 @@
                     <td th:text="${applicant.fullName}"></td>
                     <td th:text="${applicant.email}"></td>
                     <td th:text="${applicant.appliedPosition}"></td>
+                    <td th:text="${applicant.status}"></td>
 
                     <td>
                       <a
-                        href="#"
+                        th:href="@{/scheduleEmail(id=${applicant.id})}"
                         class="view"
-                        title="View"
+                        title="Email Applicant"
                         data-toggle="tooltip"
-                        ><i class="material-icons">&#xE417;</i></a
+                        ><i class="material-icons">email</i></a
                       >
                       <a
                         th:href="${applicant.resumeDownloadPath}"
