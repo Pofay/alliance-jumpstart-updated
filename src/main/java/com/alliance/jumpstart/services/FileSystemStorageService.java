@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -28,10 +28,10 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public Try<String> store(MultipartFile file, LocalDateTime timestamp) {
+    public Try<String> store(MultipartFile file, UUID identifier) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         return Validation.combine(isNotEmpty(file, fileName), verifyAsDocOrPdf(fileName), isNotRelative(fileName))
-                .ap((f, extension, filePath) -> new StoragePayload(f, extension, timestamp.toString())).toTry()
+                .ap((f, extension, filePath) -> new StoragePayload(f, extension, identifier.toString())).toTry()
                 .flatMap((payload) -> Try
                         .withResources(() -> payload.file.getInputStream()).of((stream) -> Files.copy(stream,
                                 this.rootLocation.resolve(payload.newFileName), StandardCopyOption.REPLACE_EXISTING))

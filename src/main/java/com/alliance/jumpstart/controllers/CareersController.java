@@ -6,6 +6,7 @@ import com.alliance.jumpstart.entities.JobHiring;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -179,7 +180,7 @@ public class CareersController {
         Career c = repository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
 
-        service.store(cv, LocalDateTime.now()).onSuccess((fileName) -> {
+        service.store(cv, UUID.randomUUID()).onSuccess((fileName) -> {
             Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName,
                     c.getPosition());
             c.addApplicant(a);

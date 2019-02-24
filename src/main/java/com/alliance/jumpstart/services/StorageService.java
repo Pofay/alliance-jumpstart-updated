@@ -1,6 +1,6 @@
 package com.alliance.jumpstart.services;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +11,7 @@ public interface StorageService {
 
     Try init();
 
-    Try<String> store(MultipartFile file, LocalDateTime timeStamp);
+    Try<String> store(MultipartFile file, UUID identifier);
 
     Try<Resource> loadAsResource(String filename);
 

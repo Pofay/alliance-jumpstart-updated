@@ -1,15 +1,11 @@
 package com.alliance.jumpstart.entities;
 
-
-
 import org.springframework.format.annotation.DateTimeFormat;
 import com.alliance.jumpstart.utils.JobHiringCategories;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
 
 @Entity()
 @Table(name = "task", schema = "tododb")
@@ -23,33 +19,31 @@ public class JobHiring {
     @Column(name = "job_position")
     private String jobPosition;
 
-    
+    public String getJobPosition() {
+        return jobPosition;
+    }
 
-	public String getJobPosition() {
-		return jobPosition;
-	}
+    public void setJobPosition(String jobPosition) {
+        this.jobPosition = jobPosition;
+    }
 
-	public void setJobPosition(String jobPosition) {
-		this.jobPosition = jobPosition;
-	}
+    public String getQualification() {
+        return qualification;
+    }
 
-	public String getQualification() {
-		return qualification;
-	}
+    public void setQualification(String qualification) {
+        this.qualification = qualification;
+    }
 
-	public void setQualification(String qualification) {
-		this.qualification = qualification;
-	}
+    public String getResponsibilities() {
+        return responsibilities;
+    }
 
-	public String getResponsibilities() {
-		return responsibilities;
-	}
+    public void setResponsibilities(String responsibilities) {
+        this.responsibilities = responsibilities;
+    }
 
-	public void setResponsibilities(String responsibilities) {
-		this.responsibilities = responsibilities;
-	}
-
-	@Column(name = "qualification")
+    @Column(name = "qualification")
     private String qualification;
 
     @Column(name = "responsibilities")
@@ -59,18 +53,16 @@ public class JobHiring {
     @Column(name = "task_date")
     private LocalDateTime taskDate;
 
-    public JobHiring( String jobPosition, String qualification, String responsibilities, LocalDateTime localDateTime
-			) {
-		super();
-		this.id = id;
-		this.jobPosition = jobPosition;
-		this.qualification = qualification;
-		this.responsibilities = responsibilities;
-		this.taskDate = localDateTime;
-		
-	}
+    public JobHiring(String jobPosition, String qualification, String responsibilities, LocalDateTime localDateTime) {
+        super();
+        this.jobPosition = jobPosition;
+        this.qualification = qualification;
+        this.responsibilities = responsibilities;
+        this.taskDate = localDateTime;
 
-	@Column(name = "create_date")
+    }
+
+    @Column(name = "create_date")
     private LocalDateTime createDate;
 
     @Enumerated(EnumType.STRING)
@@ -83,7 +75,6 @@ public class JobHiring {
     @Column(name = "user_id")
     private int userId;
 
-
     public JobHiring() {
     }
 
@@ -95,9 +86,7 @@ public class JobHiring {
         this.id = id;
     }
 
-    
-
-   public LocalDateTime getTaskDate() {
+    public LocalDateTime getTaskDate() {
         return taskDate;
     }
 
@@ -137,27 +126,24 @@ public class JobHiring {
         this.userId = userId;
     }
 
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         JobHiring addjob = (JobHiring) o;
-        return id == addjob.id &&
-                userId == addjob.userId &&
-                Objects.equals(jobPosition, addjob.jobPosition) &&
-                Objects.equals(qualification, addjob.qualification) &&
-                Objects.equals(responsibilities, addjob.responsibilities) &&
-                Objects.equals(taskDate, addjob.taskDate) &&
-                Objects.equals(createDate, addjob.createDate) &&
-                category == addjob.category &&
-                Objects.equals(status, addjob.status);
+        return id == addjob.id && userId == addjob.userId && Objects.equals(jobPosition, addjob.jobPosition)
+                && Objects.equals(qualification, addjob.qualification)
+                && Objects.equals(responsibilities, addjob.responsibilities)
+                && Objects.equals(taskDate, addjob.taskDate) && Objects.equals(createDate, addjob.createDate)
+                && category == addjob.category && Objects.equals(status, addjob.status);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id,jobPosition, qualification, responsibilities, taskDate, createDate, category, status, userId);
+        return Objects.hash(id, jobPosition, qualification, responsibilities, taskDate, createDate, category, status,
+                userId);
     }
 }
-

@@ -139,8 +139,6 @@
 					<th:block th:each="responsibility: ${career.responsibilities}">
 						<li th:text="${responsibility.description}"></li>
 					</th:block>
-					</th:block>
-					
 					</ul>
 					<a th:href="@{/apply(id=${career.id})}"><button type="button"
 							class="btn btn-primary pull-right">Apply Now</button></a>

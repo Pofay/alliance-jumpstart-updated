@@ -1,14 +1,9 @@
 package com.alliance.jumpstart.entities;
 
-import java.util.Optional;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 /**
  * Customer
@@ -57,8 +52,8 @@ public class Applicant {
         return this.id;
     }
 
-    public String getAppliedPosition(){
+    public String getAppliedPosition() {
         return this.appliedPosition;
     }
-    
+
 }
