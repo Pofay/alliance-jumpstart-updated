@@ -28,6 +28,13 @@ I suggest creating a **new and empty database with name of `jumpstart_db`** eith
 
 Or through the xampp [phpMyAdmin][phpmyadmin].
 
+Afterwards please import the `dbinit.sql` in the `db_init folder` to the newly created `jumpstart_db` through terminal/shell:
+
+    // Provided your inside project directory
+    mysql -u root -p jumpstart_db < dbinit\jumpstart_db
+
+Or through xampp [phpMyAdmin][phpmyadmin]
+
 Also for those having `port` issues change the standard `8010` to a different port
 
 # Production Section:
