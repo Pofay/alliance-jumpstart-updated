@@ -59,7 +59,10 @@ public class EmailController {
             final RedirectAttributes redirectAttributes) {
 
         LocalDateTime timeToSend = LocalDateTime.parse(String.format("%sT%s", date, time));
-        applicantsRepo.findByEmail(email).ifPresent((a) -> a.setStatus(applicantStatus));
+        applicantsRepo.findByEmail(email).ifPresent((a) -> {
+            a.setStatus(applicantStatus);
+            applicantsRepo.save(a);
+        });
 
         JobDetail jobDetail = buildJobDetail(email, subject, content);
         Trigger trig = buildJobTrigger(jobDetail, timeToSend);
