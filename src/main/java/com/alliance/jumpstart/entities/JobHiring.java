@@ -13,7 +13,7 @@ import java.util.Objects;
 
 
 @Entity()
-@Table(name = "task", schema = "tododb")
+@Table(name = "table_job", schema = "tododb")
 public class JobHiring {
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
@@ -60,7 +60,7 @@ public class JobHiring {
     private String responsibilities;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "task_date")
+    @Column(name = "date_created")
     private String nowDate;
     
     public JobHiring( String jobPosition, String qualification, String responsibilities, String nowDate,String status

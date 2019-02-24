@@ -31,17 +31,31 @@ public class User {
 
     @Column(name = "role")
     private int role;
+    
+    @Column(columnDefinition="BOOLEAN DEFAULT false")
+    private boolean status;
 
-    public User() {
+  
+
+	public User() {
     }
 
-    public User(String username, String password, String email, int role) {
+    public User(String username, String password, String email, int role,boolean status) {
         this.setUsername(username);
         this.setPassword(password);
         this.setEmail(email);
         this.setRole(role);
+        this.setStatus(status);
 
     }
+    
+    public boolean istStatus() {
+  		return status;
+  	}
+
+  	public void setStatus(boolean status) {
+  		this.status = status;
+  	}
 
     public int getId() {
         return id;
@@ -102,12 +116,13 @@ public class User {
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(password_2, user.password_2) &&
-                Objects.equals(email, user.email);
+                Objects.equals(email, user.email) &&
+        		Objects.equals(status, user.status);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, username, password, password_2, email, role);
+        return Objects.hash(id, username, password, password_2, email, role,status);
     }
 }

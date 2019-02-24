@@ -17,27 +17,14 @@ import com.alliance.jumpstart.entities.SendMailToApplicant;
 @Service
 public class MailService {
 
-	/*
-	 * The Spring Framework provides an easy abstraction for sending email by using
-	 * the JavaMailSender interface, and Spring Boot provides auto-configuration for
-	 * it as well as a starter module.
-	 */
+	
 	private JavaMailSender javaMailSender;
 
-	/**
-	 * 
-	 * @param javaMailSender
-	 */
+	
 	@Autowired
 	public MailService(JavaMailSender javaMailSender) {
 		this.javaMailSender = javaMailSender;
 	}
-
-	/**
-	 * 
-	 * @param user
-	 * @throws MailException
-	 */
 
 	public void sendEmail(SendMailToApplicant user) throws MailException {
 
@@ -50,9 +37,9 @@ public class MailService {
 
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmailAddress());
-		mail.setFrom("unloveddelavictoria@gmail.com");
-		mail.setSubject("Testing Mail API");
-		mail.setText("Hurray ! You have done that dude...");
+		mail.setFrom("AllianceJumpStart@gmail.com");
+		mail.setSubject("Alliance Jump Start");
+		mail.setText(user.getMessage());
 
 		/*
 		 * This send() contains an Object of SimpleMailMessage as an Parameter

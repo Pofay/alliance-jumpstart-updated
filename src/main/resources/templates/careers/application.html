@@ -92,7 +92,8 @@
 	<br>
 	<br>
 	<br>
-	<div class="page-wrapper  p-t-50 p-b-50">
+	<div class="page-wrapper  p-t-50 p-b-50"
+		>
 		<div class="wrapper wrapper--w900">
 			<div class="card card-6"
 				style="box-shadow: 1px 5px 8px 8px #888888; background-image: linear-gradient(-90deg, blue, #fff);">
@@ -102,58 +103,73 @@
 				</div>
 
 				<div class="card-body">
-					<h3 style="text-align: center; color: blue;"
-						th:text="${career.jobPosition}"></h3>
-					<form method="POST" enctype="multipart/form-data"
-						th:action="@{/careers/applyNow(id=${career.id})}"
-						th:object="${formDetails}">
-						<div class="form-row">
+					
+					<!--	<h5 th:text="${message}"  style="text-align: center; color: blue;"></h5>
+					 -->
+				
+						
+					
+					
+					<form  method="POST" enctype="multipart/form-data"
+						id="fileUploadForm" th:action="@{/careers/applyNow}" >
+						
+						  <div class="form-row">
+							<div class="name">Position</div>
+							<div class="value" >
+								<input  class="input--style-6" type="text" th:value="${career.jobPosition}" name="position" id="position" readonly>
+							</div>
+						</div>
+						  
+						  <div class="form-row">
 							<div class="name">Full name</div>
 							<div class="value">
-								<input class="input--style-6" type="text" th:field="*{fullName}"
-								placeholder="Enter Your Full Name" >
+								<input class="input--style-6" type="text" name="name" id="name"
+									placeholder="Enter Your Full Name"  required>
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="name">Email address</div>
 							<div class="value">
-
-								<input class="input--style-6" type="email"
-									placeholder="Enter Your Email" th:field="*{email}">
-
+								
+									<input class="input--style-6" type="email" name="email"
+										placeholder="Enter Your Email" required>
+								
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="name">Message</div>
 							<div class="value">
-
-								<textarea class="textarea--style-6" name="message"
-									placeholder="Message sent to the employer"
-									th:field="*{message}"></textarea>
-
+								
+									<textarea class="textarea--style-6" name="message"
+										placeholder="Message sent to the employer"></textarea>
+								
 							</div>
 						</div>
-						<div class="form-row">
+					
+					<div class="form-row">
 							<div class="name">Upload CV</div>
 							<div class="value">
 								<div class="input-group js-input-file">
-									<input class="input-file" type="file" name="file_cv" id="file">
-									<!-- <label class="label--file" for="file">Choose file</label>
-                                  <span class="input-file__info">No file chosen</span> -->
+									<input class="input-file" type="file" id="files"
+										placeholder="Upload Multiple Files" name="files" multiple></input>
+
 								</div>
 								<div class="label--desc">Upload your CV/Resume or any
 									other relevant file. Max file size 50 MB</div>
 							</div>
 						</div>
+						<div class="card-footer" style="padding-top: 10px;">
+
+						<button class="btn btn--radius-2 btn--blue-2"  type="submit"
+								style="float: right;">Send Application</button>
+						</div>
+					</form>
+				
 				</div>
-				<div class="card-footer" style="padding-top: 10px;">
-					<button class="btn btn-primary pull-right" type="submit">Send Application</button>
-				</div>
-				</form>
+
 			</div>
 		</div>
 	</div>
-
 	<!-- Jquery JS-->
 	<script src="static/vendor/jquery/jquery.min.js"></script>
 

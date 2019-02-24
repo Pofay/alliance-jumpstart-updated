@@ -17,10 +17,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 @SpringBootApplication
 
@@ -28,6 +30,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 		JumpstartApplication.class,
 		Jsr310JpaConverters.class 
 })
+
+@ComponentScan("com.alliance.jumpstart.*")
 @EnableTransactionManagement
 public class JumpstartApplication implements WebMvcConfigurer{
 
@@ -43,6 +47,11 @@ public class JumpstartApplication implements WebMvcConfigurer{
 
 	    }
 	
+    @Bean
+    public Java8TimeDialect java8TimeDialect() {
+        return new Java8TimeDialect();
+    }
+    
 	@Bean
 	public CommandLineRunner demo(CareersRepository repository, StorageService service) {
 

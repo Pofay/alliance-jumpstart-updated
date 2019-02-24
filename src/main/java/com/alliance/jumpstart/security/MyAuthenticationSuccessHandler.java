@@ -2,15 +2,25 @@ package com.alliance.jumpstart.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import com.alliance.jumpstart.entities.User;
+import com.alliance.jumpstart.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +29,9 @@ import java.util.List;
 
 @Component
 public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+	
+	 @Autowired
+	 UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(MyAuthenticationSuccessHandler.class);
 
@@ -46,10 +59,15 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
             System.out.println("Authority: " + a.getAuthority());
             roles.add(a.getAuthority());
         }
-
+        
+        User user = userService.findByUserName(authentication.getName());
+       
+       
         if (isAdmin(roles)) {
-            return "/admin";
-        } else if (isUser(roles)) {
+        	 return "/superadmin";
+        } else if (isUser(roles)  && user.istStatus()) {
+        	
+        	
             return "/admindashboard";
         } else {
             return "/login?error";

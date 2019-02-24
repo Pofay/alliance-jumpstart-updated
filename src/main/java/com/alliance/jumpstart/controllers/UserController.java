@@ -1,5 +1,7 @@
 package com.alliance.jumpstart.controllers;
 
+import java.util.Collection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ import com.alliance.jumpstart.utils.Roles;
 import com.alliance.jumpstart.utils.Status;
 
 import com.alliance.jumpstart.entities.JobHiring;
-
+import com.alliance.jumpstart.entities.SendMailToApplicant;
 import com.alliance.jumpstart.services.JobHiringService;
 
 
@@ -45,7 +47,7 @@ public class UserController {
     @Autowired
     UserService userService;
     
-  
+    
 
     /*@RequestMapping("/")
     public String root(Model model) {
@@ -56,12 +58,15 @@ public class UserController {
     
    
 
-    @RequestMapping("/login")
+    @RequestMapping(value="/login",  method = RequestMethod.POST)
     public String login(Model model) {
         model.addAttribute("reqUser", new User());
         logger.info("login");
         return "login";
     }
+    
+    
+   
     
     
     
@@ -111,6 +116,7 @@ public class UserController {
     
     @GetMapping(value = "/login")
     public String logins(Model model) {
+    	
         return "dashboard/login";
     }
 
@@ -134,8 +140,10 @@ public class UserController {
     public String register(@ModelAttribute("reqUser") User reqUser, @RequestParam("password")String password,@RequestParam("password_2")String password_2, 
                            final RedirectAttributes redirectAttributes) {
 
+    	
         logger.info("/user/register");
         User user = userService.findByUserName(reqUser.getUsername());
+    	
         
         if (!password.equals(password_2)) {
             redirectAttributes.addFlashAttribute("saveUser", "unmatched password");
