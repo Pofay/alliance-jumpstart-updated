@@ -1,10 +1,8 @@
 package com.alliance.jumpstart.services;
 
-import org.springframework.data.jpa.repository.Query;
 import com.alliance.jumpstart.entities.JobHiring;
 
 import java.util.List;
-
 
 public interface JobHiringService {
 
@@ -23,7 +21,5 @@ public interface JobHiringService {
     List<JobHiring> findByUserIdStatus(int userId, String status);
 
     List<JobHiring> findBetween(int start, int end);
-    
-    
 
 }

@@ -1,7 +1,7 @@
 package com.alliance.jumpstart.security;
 
 import org.springframework.stereotype.Service;
-import  com.alliance.jumpstart.entities.User;
+import com.alliance.jumpstart.entities.User;
 import com.alliance.jumpstart.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +11,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 public class AuthUserDetailsService implements UserDetailsService {
@@ -37,24 +35,13 @@ public class AuthUserDetailsService implements UserDetailsService {
 
         User user = getUserDetail(username);
         if (user != null) {
-            springUser = new org.springframework.security.core.userdetails.User(user.getUsername(),
-                    user.getPassword(),
-                    enabled,
-                    accountNonExpired,
-                    credentialsNonExpired,
-                    accountNonLocked,
-                    getAuthorities(user.getRole())
-            );
+            springUser = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                    enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
+                    getAuthorities(user.getRole()));
             return springUser;
         } else {
-            springUser = new org.springframework.security.core.userdetails.User("empty",
-                    "empty",
-                    false,
-                    true,
-                    true,
-                    false,
-                    getAuthorities(1)
-            );
+            springUser = new org.springframework.security.core.userdetails.User("empty", "empty", false, true, true,
+                    false, getAuthorities(1));
             return springUser;
         }
     }

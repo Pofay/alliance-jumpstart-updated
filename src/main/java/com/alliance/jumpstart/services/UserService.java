@@ -4,9 +4,6 @@ import com.alliance.jumpstart.entities.User;
 
 import java.util.Collection;
 
-import org.springframework.stereotype.Service;
-
-
 public interface UserService {
 
     User save(User user);

@@ -83,6 +83,13 @@
             <artifactId>font-awesome</artifactId>
             <version>5.0.10</version>
         </dependency>
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
+
 		
 		
 		
