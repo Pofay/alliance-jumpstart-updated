@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
 
   <head>
 
@@ -184,7 +186,7 @@ tr:hover {
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-comments"></i>
                   </div>
-                  <div class="mr-5">26 Views!</div>
+                  <div th:text="${analytics.numberOfViews} + ' Views' "></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                   <span class="float-left">View Details</span>
@@ -200,7 +202,7 @@ tr:hover {
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-list"></i>
                   </div>
-                  <div class="mr-5">11 Candidates!</div>
+                  <div class="mr-5" th:text="${analytics.numberOfCandidates} + ' Candidates'"> </div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                   <span class="float-left">View Details</span>
@@ -216,7 +218,7 @@ tr:hover {
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-shopping-cart"></i>
                   </div>
-                  <div class="mr-5">123 Moved</div>
+                  <div class="mr-5" th:text="${analytics.numberOfMoved} + ' Moved'"></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                   <span class="float-left">View Details</span>
@@ -232,7 +234,7 @@ tr:hover {
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-life-ring"></i>
                   </div>
-                  <div class="mr-5">13 Hired!</div>
+                  <div class="mr-5" th:text="${analytics.numberOfHired} + ' Hired'"></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                   <span class="float-left">View Details</span>

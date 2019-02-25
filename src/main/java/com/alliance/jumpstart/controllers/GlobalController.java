@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.alliance.jumpstart.entities.User;
 import com.alliance.jumpstart.services.UserService;
 
-
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GlobalController {
@@ -27,4 +26,3 @@ public class GlobalController {
         return loginUser;
     }
 }
-

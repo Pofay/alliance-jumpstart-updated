@@ -13,8 +13,10 @@ import java.util.stream.StreamSupport;
 import com.alliance.jumpstart.entities.Applicant;
 import com.alliance.jumpstart.repository.ApplicantsRepository;
 import com.alliance.jumpstart.repository.CareersRepository;
+import com.alliance.jumpstart.responses.AnalyticsDataResponse;
 import com.alliance.jumpstart.services.StorageService;
 import com.alliance.jumpstart.utils.ViewModelMapper;
+import com.alliance.jumpstart.services.AnalyticsService;
 import com.alliance.jumpstart.services.JobHiringService;
 import com.alliance.jumpstart.viewmodels.ApplicantDetails;
 import com.alliance.jumpstart.viewmodels.ApplicantFormDetails;
@@ -39,28 +41,35 @@ public class CareersController {
 
     private static final Logger logger = LoggerFactory.getLogger(AddJobController.class);
 
-    private CareersRepository repository;
-    private StorageService service;
+    private CareersRepository careersRepo;
+    private StorageService storageService;
     private ApplicantsRepository applicantRepo;
-    @Autowired
     private JobHiringService taskService;
+    private AnalyticsService analyticsService;
 
     @Autowired
-    public CareersController(CareersRepository repository, StorageService service, ApplicantsRepository applicantRepo) {
-        this.repository = repository;
+    public CareersController(CareersRepository careersRepo, StorageService storageService,
+            ApplicantsRepository applicantRepo, AnalyticsService analyticsService, JobHiringService taskService) {
+        this.careersRepo = careersRepo;
         this.applicantRepo = applicantRepo;
-        this.service = service;
+        this.storageService = storageService;
+        this.analyticsService = analyticsService;
+        this.taskService = taskService;
     }
 
     @GetMapping(value = "/admindashboard")
     public String adminDashboard(Model model) {
+        AnalyticsDataResponse response = analyticsService.createAnalyticsResponse();
+
+        model.addAttribute("analytics", response);
+
         return "dashboard/admindashboard";
     }
 
     @GetMapping(value = "/advertisement")
     public String advertisement(Model model) {
 
-        List<CareerAdvertisement> advertisements = StreamSupport.stream(repository.findAll().spliterator(), false)
+        List<CareerAdvertisement> advertisements = StreamSupport.stream(careersRepo.findAll().spliterator(), false)
                 .map(ViewModelMapper::toAdvertisementViewModel).collect(Collectors.toList());
 
         model.addAttribute("careerAdvertisements", advertisements);
@@ -110,7 +119,7 @@ public class CareersController {
 
     @RequestMapping(value = "/careers", method = RequestMethod.GET)
     public String careers(Model model) {
-        Iterable<Career> careers = repository.findAll();
+        Iterable<Career> careers = careersRepo.findAll();
         model.addAttribute("careers", careers);
         return "careers/careers";
     }
@@ -126,8 +135,11 @@ public class CareersController {
 
     @RequestMapping(value = "/apply", method = RequestMethod.GET)
     public String applyNow(@RequestParam(value = "id") long id, Model model) {
-        Career c = repository.findById(Long.valueOf(id))
+        Career c = careersRepo.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
+
+        c.addNumberOfViews(Long.valueOf(1));
+        careersRepo.save(c);
 
         model.addAttribute("career", c);
         model.addAttribute("formDetails", new ApplicantFormDetails());
@@ -139,10 +151,11 @@ public class CareersController {
     public String createApplicant(@RequestParam(value = "id") long id,
             @RequestParam(value = "file_cv") MultipartFile cv, @ModelAttribute ApplicantFormDetails details) {
 
-        Career c = repository.findById(Long.valueOf(id))
+        Career c = careersRepo.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Cannot find resource with id"));
 
-        service.store(cv, UUID.randomUUID()).onSuccess((fileName) -> this.createAndSaveApplicant(details, c, fileName))
+        storageService.store(cv, UUID.randomUUID())
+                .onSuccess((fileName) -> this.createAndSaveApplicant(details, c, fileName))
                 .onFailure((o) -> System.out.println(o));
 
         return "redirect:/careers";
@@ -152,7 +165,7 @@ public class CareersController {
     public String deleteCareer(@PathVariable("id") int id, final RedirectAttributes redirectAttributes, Model model) {
 
         logger.info("/careers/delete/{} ", id);
-        this.repository.deleteById(new Long(id));
+        this.careersRepo.deleteById(new Long(id));
         redirectAttributes.addFlashAttribute("msg", "del");
         redirectAttributes.addFlashAttribute("msgText", " Career deleted permanently");
         return "redirect:/advertisement";
@@ -162,7 +175,7 @@ public class CareersController {
         Applicant a = new Applicant(details.getFullName(), details.getEmail(), details.getMessage(), fileName,
                 c.getPosition());
         c.addApplicant(a);
-        repository.save(c);
+        careersRepo.save(c);
     }
 
     private void createCareer(String position, String qualification, String responsibilities) {
@@ -171,7 +184,7 @@ public class CareersController {
         Arrays.asList(qualification.split(",")).stream().forEach(c::addQualification);
         Arrays.asList(responsibilities.split(",")).stream().forEach(c::addResponsibility);
 
-        this.repository.save(c);
+        this.careersRepo.save(c);
     }
 
 }

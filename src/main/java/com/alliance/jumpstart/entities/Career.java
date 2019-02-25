@@ -21,6 +21,7 @@ public class Career {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String position;
+    private Long numberOfViews;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CareerQualification> qualifications;
@@ -33,17 +34,32 @@ public class Career {
     protected Career() {
     }
 
+    /**
+     * @return the numberOfViews
+     */
+    public Long getNumberOfViews() {
+        return numberOfViews;
+    }
+
+    /**
+     * @param numberOfViews the numberOfViews to set
+     */
+    public void addNumberOfViews(Long numberOfViews) {
+        this.numberOfViews += numberOfViews;
+    }
+
     public Career(String position, LocalDateTime dateCreated) {
         this.position = position;
         this.qualifications = new ArrayList<>();
         this.responsibilities = new ArrayList<>();
         this.dateCreated = dateCreated;
+        this.numberOfViews = Long.valueOf(0);
     }
 
     public List<CareerQualification> getQualifications() {
         return this.qualifications;
     }
-    
+
     public List<CareerResponsibility> getResponsibilities() {
         return this.responsibilities;
     }
