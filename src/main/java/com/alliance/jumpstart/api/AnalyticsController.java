@@ -22,5 +22,4 @@ public class AnalyticsController {
     public AnalyticsDataResponse getCurrentStatistics() {
         return service.createAnalyticsResponse();
     }
-
 }

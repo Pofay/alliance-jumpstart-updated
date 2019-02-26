@@ -89,7 +89,7 @@ public class EmailController {
     private Trigger buildJobTrigger(JobDetail jobDetail, LocalDateTime startAt) {
         return TriggerBuilder.newTrigger().forJob(jobDetail)
                 .withIdentity(jobDetail.getKey().getName(), "email-triggers").withDescription("Send Email Trigger")
-                .startAt(Date.from(startAt.atZone(ZoneId.systemDefault()).toInstant()))
+                .startAt(Date.from(startAt.atZone(ZoneId.of("Asia/Shanghai")).toInstant()))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow()).build();
     }
 }
